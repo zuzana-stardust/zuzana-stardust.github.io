@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Celosemestrovka · rozvrhoR</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <main class="semester-page">
+
+    <!-- HORNÁ LIŠTA -->
+    <div class="semester-top">
+
+      <a href="#" class="back-button">
+        <span class="back-arrow">←</span>
+        flip and bitch
+      </a>
+
+    </div>
+
+
+    <!-- INFORMÁCIE O PREDMETE -->
+    <header class="subject-header">
+
+      <h1 id="subject-name">
+        Didaktika ANJ
+      </h1>
+
+      <p id="subject-info">
+        10:00 – 11:30 · Mgr. XY · Miestnosť 221
+      </p>
+
+    </header>
+
+
+    <!-- OBSAH -->
+    <section class="semester-content">
+
+      <div class="content-heading">
+
+        <h2>Celosemestrovka</h2>
+
+        <button
+          type="button"
+          class="upload-button"
+          id="upload-button">
+          + Nahrať súbor
+        </button>
+
+        <input
+          type="file"
+          id="file-upload"
+          hidden
+        >
+
+      </div>
+
+
+      <!-- ZOZNAM SÚBOROV -->
+      <div class="file-list" id="file-list">
+
+
+        <!-- VZOROVÉ SÚBORY -->
+        <div class="file-row">
+
+          <div class="file-name">
+            Seminárna práca.pdf
+          </div>
+
+          <div class="file-actions">
+
+            <button
+              type="button"
+              class="file-action download-button"
+              title="Stiahnuť">
+              💾
+            </button>
+
+            <button
+              type="button"
+              class="file-action delete-button"
+              title="Zmazať">
+              🗑
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="file-row">
+
+          <div class="file-name">
+            Zadanie.jpg
+          </div>
+
+          <div class="file-actions">
+
+            <button
+              type="button"
+              class="file-action download-button"
+              title="Stiahnuť">
+              💾
+            </button>
+
+            <button
+              type="button"
+              class="file-action delete-button"
+              title="Zmazať">
+              🗑
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="file-row">
+
+          <div class="file-name">
+            Prezentácia.pptx
+          </div>
+
+          <div class="file-actions">
+
+            <button
+              type="button"
+              class="file-action download-button"
+              title="Stiahnuť">
+              💾
+            </button>
+
+            <button
+              type="button"
+              class="file-action delete-button"
+              title="Zmazať">
+              🗑
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script>
+
+    /* =========================
+       NAHRATIE SÚBORU
+       ========================= */
+
+    const uploadButton =
+      document.getElementById("upload-button");
+
+    const fileInput =
+      document.getElementById("file-upload");
+
+    const fileList =
+      document.getElementById("file-list");
+
+
+    uploadButton.addEventListener("click", () => {
+
+      fileInput.click();
+
+    });
+
+
+    fileInput.addEventListener("change", () => {
+
+      const file = fileInput.files[0];
+
+      if (!file) {
+        return;
+      }
+
+
+      /*
+       * Zatiaľ iba zobrazíme súbor
+       * na stránke.
+       *
+       * Neskôr sem napojíme
+       * Supabase Storage.
+       */
+
+      const fileRow =
+        document.createElement("div");
+
+      fileRow.className = "file-row";
+
+
+      fileRow.innerHTML = `
+
+        <div class="file-name">
+          ${file.name}
+        </div>
+
+        <div class="file-actions">
+
+          <button
+            type="button"
+            class="file-action download-button"
+            title="Stiahnuť">
+            💾
+          </button>
+
+          <button
+            type="button"
+            class="file-action delete-button"
+            title="Zmazať">
+            🗑
+          </button>
+
+        </div>
+
+      `;
+
+
+      fileList.appendChild(fileRow);
+
+
+      /* Vyčistíme input */
+
+      fileInput.value = "";
+
+
+      /* Pripojíme mazanie */
+
+      addDeleteButton(fileRow);
+
+    });
+
+
+    /* =========================
+       MAZANIE SÚBORU
+       ========================= */
+
+    function addDeleteButton(row) {
+
+      const deleteButton =
+        row.querySelector(".delete-button");
+
+
+      deleteButton.addEventListener("click", () => {
+
+        const confirmed =
+          confirm(
+            "Naozaj chceš tento súbor zmazať?"
+          );
+
+
+        if (confirmed) {
+
+          row.remove();
+
+        }
+
+      });
+
+    }
+
+
+    /* Mazanie vzorových súborov */
+
+    document
+      .querySelectorAll(".file-row")
+      .forEach(row => {
+
+        addDeleteButton(row);
+
+      });
+
+  </script>
+
+</body>
+</html>
