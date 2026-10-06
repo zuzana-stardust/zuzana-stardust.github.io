@@ -1,0 +1,832 @@
+/* ==========================================
+   ZÁKLAD
+========================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #eeece8;
+    color: #292725;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+}
+
+
+/* ==========================================
+   HLAVIČKA
+========================================== */
+
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    padding: 24px 32px 20px;
+
+    background: #eeece8;
+    border-bottom: 1px solid #d8d4ce;
+}
+
+.brand {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.brand span {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #77716b;
+}
+
+.brand h1 {
+    margin: 0;
+
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: #292725;
+}
+
+.local-time {
+    text-align: right;
+    font-size: 13px;
+    color: #625d58;
+    white-space: nowrap;
+}
+
+
+/* ==========================================
+   TERAZ PREBIEHA / NASLEDUJE
+========================================== */
+
+.status-section {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+
+    padding: 22px 32px 10px;
+}
+
+.status-card {
+    min-height: 120px;
+
+    padding: 18px 20px;
+
+    border: 1px solid rgba(41, 39, 37, 0.12);
+    border-radius: 16px;
+
+    box-shadow:
+        0 5px 16px rgba(41, 39, 37, 0.06);
+}
+
+
+/* TERAZ PREBIEHA — krémová */
+
+.current-card {
+    background: #f3e5c8;
+}
+
+
+/* NASLEDUJE — pastelová ružová */
+
+.next-card {
+    background: #f2d3dc;
+}
+
+
+.status-label {
+    margin-bottom: 8px;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+
+    color: #625d58;
+}
+
+.status-card h2 {
+    margin: 0 0 6px;
+
+    font-size: 20px;
+    line-height: 1.2;
+}
+
+.status-card p {
+    margin: 0;
+
+    font-size: 13px;
+    color: #625d58;
+}
+
+
+/* ==========================================
+   ROZVRH
+========================================== */
+
+.schedule-section {
+    padding: 10px 32px 40px;
+}
+
+.section-title {
+    margin: 12px 0 18px;
+
+    font-size: 21px;
+    font-weight: 700;
+    color: #292725;
+}
+
+
+/* ==========================================
+   SPOLOČNÁ ČASOVÁ OS
+========================================== */
+
+.schedule-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.schedule-timeline {
+    display: grid;
+
+    /*
+        1. stĺpec = čas
+        ďalšie 4 = Pondelok – Štvrtok
+    */
+    grid-template-columns:
+        65px
+        repeat(4, minmax(0, 1fr));
+
+    min-width: 820px;
+}
+
+
+/* ==========================================
+   ČASOVÝ STĹPEC
+========================================== */
+
+.time-column {
+    position: relative;
+
+    min-height: 1375px;
+
+    padding-top: 55px;
+
+    border-right: 1px solid #d8d4ce;
+}
+
+.time-spacer {
+    height: 0;
+}
+
+.time-label {
+    height: 110px;
+
+    padding-top: 0;
+
+    font-size: 11px;
+    color: #77716b;
+
+    text-align: right;
+    padding-right: 8px;
+}
+
+
+/* ==========================================
+   DNI
+========================================== */
+
+.day-column {
+    position: relative;
+
+    min-height: 1375px;
+
+    border-right: 1px solid #d8d4ce;
+
+    /*
+        jemné hodinové čiary
+    */
+    background-image:
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0,
+            transparent 109px,
+            #ddd9d3 110px
+        );
+}
+
+.day-column:last-child {
+    border-right: none;
+}
+
+
+.day-title {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0;
+
+    background: #eeece8;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    z-index: 20;
+}
+
+
+/* ==========================================
+   HODINY
+========================================== */
+
+.lesson {
+    position: absolute;
+
+    left: 7px;
+    right: 7px;
+
+    z-index: 10;
+
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+
+    padding: 9px;
+
+    border: 1px solid rgba(41, 39, 37, 0.18);
+    border-radius: 10px;
+
+    color: #292725;
+
+    cursor: pointer;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 3px 9px rgba(41, 39, 37, 0.07);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        filter 0.15s ease;
+}
+
+.lesson:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 6px 15px rgba(41, 39, 37, 0.12);
+
+    filter: brightness(1.015);
+}
+
+
+/* ==========================================
+   NOVÉ PASTELové FARBY
+   podľa typu výučby
+========================================== */
+
+
+/*
+   PÔVODNÁ SVETLOZELENÁ
+   → PASTELová MODRÁ
+   C = cvičenie
+*/
+
+.day-column[data-day="monday"] .lesson:nth-child(2),
+.day-column[data-day="monday"] .lesson:nth-child(4),
+.day-column[data-day="monday"] .lesson:nth-child(6),
+
+.day-column[data-day="tuesday"] .lesson:nth-child(5),
+
+.day-column[data-day="wednesday"] .lesson:nth-child(3) {
+    background: #d4e5f2;
+}
+
+
+/*
+   PÔVODNÁ VÝRAZNEJŠIA ZELENÁ
+   → PASTELová FIALOVÁ
+   P = prednáška
+*/
+
+.day-column[data-day="monday"] .lesson:nth-child(3),
+
+.day-column[data-day="tuesday"] .lesson:nth-child(2),
+
+.day-column[data-day="wednesday"] .lesson:nth-child(4),
+
+.day-column[data-day="thursday"] .lesson:nth-child(3),
+.day-column[data-day="thursday"] .lesson:nth-child(5) {
+    background: #dcd2f2;
+}
+
+
+/*
+   PÔVODNÁ BIELA
+   → JEMNÁ KRÉMOVÁ
+   S = seminár
+*/
+
+.day-column[data-day="monday"] .lesson:nth-child(5),
+
+.day-column[data-day="tuesday"] .lesson:nth-child(3),
+.day-column[data-day="tuesday"] .lesson:nth-child(4),
+
+.day-column[data-day="wednesday"] .lesson:nth-child(2),
+
+.day-column[data-day="thursday"] .lesson:nth-child(2),
+.day-column[data-day="thursday"] .lesson:nth-child(4) {
+    background: #f8f5ef;
+}
+
+
+/*
+   Ak by niektorá hodina nemala
+   zaradenú farbu, zostane jemne krémová.
+*/
+
+.lesson {
+    background: #f8f5ef;
+}
+
+
+/* ==========================================
+   TEXT V HODINE
+========================================== */
+
+.lesson-time {
+    flex: 0 0 auto;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    line-height: 1.2;
+
+    margin-bottom: 3px;
+}
+
+.lesson-frequency {
+    flex: 0 0 auto;
+
+    font-size: 10px;
+
+    line-height: 1.2;
+
+    margin-bottom: 4px;
+
+    color: #625d58;
+}
+
+.lesson-room {
+    flex: 0 0 auto;
+
+    font-size: 10px;
+
+    line-height: 1.2;
+
+    margin-bottom: 4px;
+
+    color: #625d58;
+}
+
+.lesson h3 {
+    flex: 0 0 auto;
+
+    margin: 0 0 4px;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    line-height: 1.25;
+
+    overflow-wrap: anywhere;
+}
+
+.lesson p {
+    flex: 0 0 auto;
+
+    margin: 0;
+
+    font-size: 11px;
+
+    line-height: 1.2;
+
+    color: #625d58;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* ==========================================
+   KRÁTKE HODINY
+========================================== */
+
+.lesson-short {
+    padding: 7px;
+}
+
+.lesson-short .lesson-time {
+    font-size: 10px;
+    margin-bottom: 2px;
+}
+
+.lesson-short .lesson-frequency {
+    font-size: 9px;
+    margin-bottom: 2px;
+}
+
+.lesson-short .lesson-room {
+    font-size: 9px;
+    margin-bottom: 2px;
+}
+
+.lesson-short h3 {
+    font-size: 11px;
+    line-height: 1.15;
+    margin-bottom: 2px;
+}
+
+.lesson-short p {
+    font-size: 9px;
+    line-height: 1.1;
+}
+
+
+/* ==========================================
+   DETAIL PREDMETU
+========================================== */
+
+.lesson-detail {
+    position: relative;
+
+    margin: 10px 32px 40px;
+
+    padding: 28px;
+
+    background: #f8f5ef;
+
+    border: 1px solid #d8d4ce;
+    border-radius: 18px;
+
+    box-shadow:
+        0 8px 24px rgba(41, 39, 37, 0.08);
+}
+
+.lesson-detail.hidden {
+    display: none;
+}
+
+
+.close-detail {
+    position: absolute;
+
+    top: 12px;
+    right: 14px;
+
+    width: 34px;
+    height: 34px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #e7e2dc;
+
+    color: #292725;
+
+    font-size: 22px;
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+.close-detail:hover {
+    background: #ddd7d0;
+}
+
+
+.lesson-detail .card-label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+
+    color: #77716b;
+}
+
+.lesson-detail h2 {
+    margin: 0 0 5px;
+
+    font-size: 24px;
+    line-height: 1.2;
+}
+
+.lesson-detail > p,
+.detail-heading p {
+    margin: 0 0 6px;
+
+    font-size: 14px;
+
+    color: #625d58;
+}
+
+
+/* ==========================================
+   ÚLOHA
+========================================== */
+
+.next-task,
+.task-box {
+    margin-top: 20px;
+
+    padding: 15px;
+
+    background: #eeece8;
+
+    border-radius: 12px;
+}
+
+.next-task strong,
+.task-label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    color: #625d58;
+}
+
+#detail-task {
+    display: block;
+
+    width: 100%;
+
+    min-height: 70px;
+
+    padding: 10px;
+
+    border: 1px solid #d8d4ce;
+    border-radius: 9px;
+
+    background: #faf9f7;
+
+    color: #292725;
+
+    font-family: inherit;
+    font-size: 13px;
+
+    resize: vertical;
+}
+
+
+/* ==========================================
+   AKTUALIZOVANÝ
+========================================== */
+
+.updated-button {
+    margin-top: 10px;
+
+    padding: 8px 12px;
+
+    border: 1px solid #d8d4ce;
+    border-radius: 8px;
+
+    background: #e8e2f0;
+
+    color: #625d58;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 0.06em;
+
+    cursor: pointer;
+}
+
+.updated-button:hover {
+    filter: brightness(0.98);
+}
+
+
+/* ==========================================
+   TRI DETAIL MOŽNOSTI
+========================================== */
+
+.detail-options {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 12px;
+
+    margin-top: 20px;
+}
+
+.detail-option {
+    min-height: 105px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 15px;
+
+    border: 1px solid #d8d4ce;
+    border-radius: 14px;
+
+    background: #eeece8;
+
+    color: #292725;
+
+    font-family: inherit;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        background 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.detail-option:hover {
+    transform: translateY(-2px);
+
+    background: #e8e3dd;
+
+    box-shadow:
+        0 5px 14px rgba(41, 39, 37, 0.08);
+}
+
+.detail-icon,
+.option-icon {
+    font-size: 24px;
+}
+
+.detail-option strong,
+.detail-option span:last-child {
+    font-size: 13px;
+}
+
+
+/* ==========================================
+   MOBIL
+========================================== */
+
+@media (max-width: 800px) {
+
+    .top-header {
+        padding: 20px 18px 16px;
+    }
+
+    .brand h1 {
+        font-size: 21px;
+    }
+
+    .brand span {
+        font-size: 9px;
+    }
+
+    .local-time {
+        font-size: 11px;
+    }
+
+
+    .status-section {
+        grid-template-columns: 1fr;
+
+        padding:
+            18px
+            18px
+            8px;
+
+        gap: 12px;
+    }
+
+    .status-card {
+        min-height: 100px;
+    }
+
+
+    .schedule-section {
+        padding:
+            10px
+            18px
+            30px;
+    }
+
+    .section-title {
+        font-size: 19px;
+    }
+
+
+    .schedule-timeline {
+        min-width: 760px;
+    }
+
+
+    .lesson {
+        left: 5px;
+        right: 5px;
+
+        padding: 7px;
+    }
+
+    .lesson h3 {
+        font-size: 11px;
+    }
+
+    .lesson-time {
+        font-size: 10px;
+    }
+
+    .lesson-frequency,
+    .lesson-room {
+        font-size: 9px;
+    }
+
+    .lesson p {
+        font-size: 10px;
+    }
+
+
+    .lesson-detail {
+        margin:
+            10px
+            18px
+            30px;
+
+        padding: 22px 18px;
+    }
+
+    .lesson-detail h2 {
+        font-size: 21px;
+    }
+
+    .detail-options {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-option {
+        min-height: 80px;
+    }
+}
+
+
+/* ==========================================
+   VEĽMI MALÉ OBRAZOVKY
+========================================== */
+
+@media (max-width: 500px) {
+
+    .top-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 10px;
+    }
+
+    .local-time {
+        align-self: flex-end;
+    }
+
+    .status-section {
+        padding-top: 14px;
+    }
+
+    .schedule-timeline {
+        min-width: 700px;
+    }
+}

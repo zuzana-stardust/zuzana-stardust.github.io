@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Môj rozvrh</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="top-header">
+
+    <div class="brand">
+        <span>Powered by Zuzana Stardust i.n.c.</span>
+        <h1>Vitaj ty monštrum honorabilné</h1>
+    </div>
+
+    <div class="local-time">
+        <span id="local-datetime"></span>
+    </div>
+
+</header>
+
+
+<main>
+
+    <!-- =========================================
+         TERAZ / NASLEDUJE
+    ========================================== -->
+
+    <section class="status-section">
+
+        <div class="status-card current-card">
+            <div class="status-label">Teraz prebieha</div>
+            <h2 id="current-subject">—</h2>
+            <p id="current-info">—</p>
+        </div>
+
+        <div class="status-card next-card">
+            <div class="status-label">Nasleduje</div>
+            <h2 id="next-subject">—</h2>
+            <p id="next-info">—</p>
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         ROZVRH
+    ========================================== -->
+
+    <section class="schedule-section">
+
+        <h2 class="section-title">Rozvrh hodín</h2>
+
+        <div class="schedule-wrapper">
+
+            <div class="schedule-timeline">
+
+
+                <!-- ČASOVÁ OS -->
+
+                <div class="time-column">
+
+                    <div class="time-spacer"></div>
+
+                    <div class="time-label">07:00</div>
+                    <div class="time-label">08:00</div>
+                    <div class="time-label">09:00</div>
+                    <div class="time-label">10:00</div>
+                    <div class="time-label">11:00</div>
+                    <div class="time-label">12:00</div>
+                    <div class="time-label">13:00</div>
+                    <div class="time-label">14:00</div>
+                    <div class="time-label">15:00</div>
+                    <div class="time-label">16:00</div>
+                    <div class="time-label">17:00</div>
+                    <div class="time-label">18:00</div>
+
+                </div>
+
+
+                <!-- =========================================
+                     PONDELOK
+                ========================================== -->
+
+                <div class="day-column" data-day="monday">
+
+                    <div class="day-title">Pondelok</div>
+
+
+                    <div
+                        class="lesson"
+                        data-day="monday"
+                        data-start="09:15"
+                        data-end="10:45"
+                        data-frequency="TYZ"
+                        data-room-code="DRB05110"
+                    >
+                        <span class="lesson-time">09:15 – 10:45</span>
+                        <span class="lesson-frequency">TYZ</span>
+
+                        <h3>Maľba</h3>
+
+                        <span class="lesson-room"></span>
+
+                        <p>Baus (+1)</p>
+                    </div>
+
+
+                    <div
+                        class="lesson"
+                        data-day="monday"
+                        data-start="11:45"
+                        data-end="12:30"
+                        data-frequency="TYZ"
+                        data-room-code="DRB02210"
+                    >
+                        <span class="lesson-time">11:45 – 12:30</span>
+                        <span class="lesson-frequency">TYZ</span>
+
+                        <h3>Didaktika ANJ</h3>
+
+                        <span class="lesson-room"></span>
+
+                        <p>Kováčiková</p>
+                    </div>
+
+
+                    <div
+                        class="lesson"
+                        data-day="monday"
+                        data-start="13:00"
+                        data-end="14:30"
+                        data-frequency="TYZ"
+                        data-room-code="DRB0514A"
+                    >
+                        <span class="lesson-time">13:00 – 14:30</span>
+                        <span class="lesson-frequency">TYZ</span>
+
+                        <h3>Digitálne médiá</h3>
+
+                        <span class="lesson-room"></span>
+
+                        <p>Zabadal</p>
+                    </div>
+
+
+                    <div
+                        class="lesson"
+                        data-day="monday"
+                        data-start="14:45"
+                        data-end="16:15"
+                        data-frequency="TYZ"
+                        data-room-code="DRB02210"
+                    >
+                        <span class="lesson-time">14:45 – 16:15</span>
+                        <span class="lesson-frequency">TYZ</span>
+
+                        <h3>Didaktika ANJ 2</h3>
+
+                        <span class="lesson-room"></span>
+
+                        <p>Vnučko</p>
+                    </div>
+
+
+                    <div
+                        class="lesson"
+                        data-day="monday"
+                        data-start="16:30"
+                        data-end="18:00"
+                        data-frequency="TYZ"
+                        data-room-code="DRB05180"
+                    >
+                        <span class="lesson-time">16:30 – 18:00</span>
+                        <span class="lesson-frequency">TYZ</span>
+
+                        <h3>Grafika</h3>
+
+                        <span class="lesson-room"></span>
+
+                        <p>Huňady (+1)</p>
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     UTOROK
+                ========================================== -->
+
+                <div class="day-column" data-day="tuesday">
+
+                    <div class="day-title">Utorok</div>
+
+
+                    <div
+                        class="lesson"
+                        data-day="tuesday"
+                        data-start="09:15"
+                        data-end="10:45"
+                        data-frequency="NP"
+                        data-room-code="DRB05150"
+                    >
+                        <span class="lesson-time">09:15 – 10:45</span>
+                        <span class="lesson-frequency">NP</span>
+
+                        <h3>Didaktika VYV</h3>
+
+                        <span class="lesson-room"></span>
+
+                        <p>Satková</p>
+                    </div>
+
+
+                    <div
+                        class="lesson"
+                        data-day="tuesday"
+                        data-start="11:00"
+                        data-end="12:30"
+                        data-frequency="NP"
+                        data-room-code="DRB05150"
+                    >
+                        <span class="lesson-time">11:00 – 12:30</span>
+                        <span class="lesson-frequency">NP</span>
+
+                        <h3>Didaktika VYV</h3>
+
+                        <span class="lesson-room"></span>
+
+                        <p>Satková</p>
+                    </div>
+
+
+                    <div
+                        class="lesson"
+                        data-day="tuesday"
+                        data-start="13:00"
+                        data-end="14:30"
+                        data-frequency="TYZ"
+                        data-room-code="DRB02210"
+                    >
+                        <span class="lesson-time">13:00 – 14:30</span>
+                        <span class="lesson-frequency">TYZ</span>
+
+                        <h3>Učenie postihov</h3>
+
+                        <span class="lesson-room"></span>
+
+                        <p>Myjavec</p>
+                    </div>
+
+
+                    <div
+                        class="lesson"
+                        data-day="tuesday"
+                        data-start="14:45"
+                        data-end="16:15"
+                        data-frequency="TYZ"
+                        data-room-code="DRB05190"
+                    >
+                        <span class="lesson-time">14:45 – 16:15</span>
+                        <span class="lesson-frequency">TYZ</span>
+
+                        <h3>Metodika VYV</h3>
+
+                        <span class="lesson-room"></span>
+
+                        <p>Satková</p>
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     STREDA
+                ========================================== -->
+
+                <div class="day-column" data-day="wednesday">
+
+                    <div class="day-title">Streda</div>
+
+
+                    <div
+                        class="lesson"
+                        data-day="wednesday"
+                        data-start="07:30"
+                        data-end="09:00"
+                        data-frequency="TYZ"
+                        data-room-code="DRB02210"
+                    >
+                        <span class="lesson-time">07:30 – 09:00</span>
+                        <span class="lesson-frequency">TYZ</span>
+
+                        <h3>Literatúra</h3>
+
+                        <span class="lesson-room"></span>
+
+                        <p>Gutai</p>
+                    </div>
+
+
+                    <div
+                        class="lesson"
+                        data-day="wednesday"
+                        data-start="11:00"
+                        data-end="12:30"
+                        data-frequency="TYZ"
+                        data-room-code="DRB05190"
+                    >
+                        <span class="lesson-time">11:00 – 12:30</span>
+                        <span class="lesson-frequency">TYZ</span>
+
+                        <h3>Priestorové umenie</h3>
+
+                        <span class="lesson-room"></span>
+
+                        <p>Huňady (+1)</p>
+                    </div>
+
+
+                    <div
+                        class="lesson"
+                        data-day="wednesday"
+                        data-start="16:30"
+                        data-end="17:15"
+                        data-frequency="TYZ"
+                        data-room-code="DRB00150"
+                    >
+                        <span class="lesson-time">16:30 – 17:15</span>
+                        <span class="lesson-frequency">TYZ</span>
+
+                        <h3>Didaktika ANJ</h3>
+
+                        <span class="lesson-room"></span>
+
+                        <p>Burcl</p>
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     ŠTVRTOK
+                ========================================== -->
+
+                <div class="day-column" data-day="thursday">
+
+                    <div class="day-title">Štvrtok</div>
+
+
+                    <div
+                        class="lesson"
+                        data-day="thursday"
+                        data-start="09:15"
+                        data-end="10:45"
+                        data-frequency="PT"
+                        data-room-code="DRB05150"
+                    >
+                        <span class="lesson-time">09:15 – 10:45</span>
+                        <span class="lesson-frequency">PT</span>
+
+                        <h3>Dejiny</h3>
+
+                        <span class="lesson-room"></span>
+
+                        <p>Pariláková (+1)</p>
+                    </div>
+
+
+                    <div
+                        class="lesson"
+                        data-day="thursday"
+                        data-start="11:00"
+                        data-end="11:45"
+                        data-frequency="TYZ"
+                        data-room-code="DRB00150"
+                    >
+                        <span class="lesson-time">11:00 – 11:45</span>
+                        <span class="lesson-frequency">TYZ</span>
+
+                        <h3>Didaktika ANJ</h3>
+
+                        <span class="lesson-room"></span>
+
+                        <p>Burcl</p>
+                    </div>
+
+
+                    <div
+                        class="lesson"
+                        data-day="thursday"
+                        data-start="11:45"
+                        data-end="12:30"
+                        data-frequency="PT"
+                        data-room-code="DRB05150"
+                    >
+                        <span class="lesson-time">11:45 – 12:30</span>
+                        <span class="lesson-frequency">PT</span>
+
+                        <h3>Dejiny</h3>
+
+                        <span class="lesson-room"></span>
+
+                        <p>Récka</p>
+                    </div>
+
+
+                    <div
+                        class="lesson"
+                        data-day="thursday"
+                        data-start="14:45"
+                        data-end="16:15"
+                        data-frequency="TYZ"
+                        data-room-code="DRB00150"
+                    >
+                        <span class="lesson-time">14:45 – 16:15</span>
+                        <span class="lesson-frequency">TYZ</span>
+
+                        <h3>Psychológia</h3>
+
+                        <span class="lesson-room"></span>
+
+                        <p>Grznárová (+1)</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         DETAIL PREDMETU
+    ========================================== -->
+
+    <section id="lesson-detail" class="lesson-detail">
+
+        <button
+            id="close-detail"
+            class="close-detail"
+            type="button"
+            aria-label="Zavrieť detail"
+        >
+            ×
+        </button>
+
+
+        <div class="detail-content">
+
+            <div class="detail-heading">
+
+                <h2 id="detail-subject">Predmet</h2>
+
+                <p id="detail-teacher">Vyučujúci</p>
+
+                <p id="detail-room">Miestnosť</p>
+
+            </div>
+
+
+            <div class="task-box">
+
+                <div class="task-label">Úloha</div>
+
+                <textarea
+                    id="detail-task"
+                    placeholder="Napíš si úlohu na ďalšiu hodinu..."
+                ></textarea>
+
+                <button
+                    id="updated-button"
+                    class="updated-button"
+                    type="button"
+                >
+                    AKTUALIZOVANÝ
+                </button>
+
+            </div>
+
+
+            <div class="detail-options">
+
+                <button
+                    id="semester-button"
+                    class="detail-option"
+                    type="button"
+                >
+                    <span class="option-icon">📚</span>
+                    <span>Semester</span>
+                </button>
+
+
+                <button
+                    id="material-button"
+                    class="detail-option"
+                    type="button"
+                >
+                    <span class="option-icon">📎</span>
+                    <span>Materiál</span>
+                </button>
+
+
+                <button
+                    id="calendar-button"
+                    class="detail-option"
+                    type="button"
+                >
+                    <span class="option-icon">📅</span>
+                    <span>Kalendár</span>
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
