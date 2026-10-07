@@ -18,7 +18,7 @@
 
       <a href="#" class="back-button">
         <span class="back-arrow">←</span>
-        flip and bitch
+        flip a bitch
       </a>
 
     </div>
@@ -153,134 +153,7 @@
   </main>
 
 
-  <script>
-
-    /* =========================
-       NAHRATIE SÚBORU
-       ========================= */
-
-    const uploadButton =
-      document.getElementById("upload-button");
-
-    const fileInput =
-      document.getElementById("file-upload");
-
-    const fileList =
-      document.getElementById("file-list");
-
-
-    uploadButton.addEventListener("click", () => {
-
-      fileInput.click();
-
-    });
-
-
-    fileInput.addEventListener("change", () => {
-
-      const file = fileInput.files[0];
-
-      if (!file) {
-        return;
-      }
-
-
-      /*
-       * Zatiaľ iba zobrazíme súbor
-       * na stránke.
-       *
-       * Neskôr sem napojíme
-       * Supabase Storage.
-       */
-
-      const fileRow =
-        document.createElement("div");
-
-      fileRow.className = "file-row";
-
-
-      fileRow.innerHTML = `
-
-        <div class="file-name">
-          ${file.name}
-        </div>
-
-        <div class="file-actions">
-
-          <button
-            type="button"
-            class="file-action download-button"
-            title="Stiahnuť">
-            💾
-          </button>
-
-          <button
-            type="button"
-            class="file-action delete-button"
-            title="Zmazať">
-            🗑
-          </button>
-
-        </div>
-
-      `;
-
-
-      fileList.appendChild(fileRow);
-
-
-      /* Vyčistíme input */
-
-      fileInput.value = "";
-
-
-      /* Pripojíme mazanie */
-
-      addDeleteButton(fileRow);
-
-    });
-
-
-    /* =========================
-       MAZANIE SÚBORU
-       ========================= */
-
-    function addDeleteButton(row) {
-
-      const deleteButton =
-        row.querySelector(".delete-button");
-
-
-      deleteButton.addEventListener("click", () => {
-
-        const confirmed =
-          confirm(
-            "Naozaj chceš tento súbor zmazať?"
-          );
-
-
-        if (confirmed) {
-
-          row.remove();
-
-        }
-
-      });
-
-    }
-
-
-    /* Mazanie vzorových súborov */
-
-    document
-      .querySelectorAll(".file-row")
-      .forEach(row => {
-
-        addDeleteButton(row);
-
-      });
-
-  </script>
+  <script src="celosemestrovkascript.js"></script>
 
 </body>
 </html>
