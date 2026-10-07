@@ -71,6 +71,73 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const fileList =
     document.getElementById("file-list");
+   
+  loadFiles();
+
+
+  async function loadFiles() {
+
+    const safeSubject =
+      predmet || "nezaradene";
+
+    const { data, error } =
+      await supabaseClient
+        .storage
+        .from("rozvrhor")
+        .list(safeSubject);
+
+    if (error) {
+
+      console.error(
+        "Nepodarilo sa načítať súbory:",
+        error
+      );
+
+      return;
+    }
+
+    data.forEach(file => {
+
+      const fileRow =
+        document.createElement("div");
+
+      fileRow.className =
+        "file-row";
+
+      fileRow.dataset.filePath =
+        safeSubject + "/" + file.name;
+
+      fileRow.innerHTML = `
+        <div class="file-name">
+          ${file.name}
+        </div>
+
+        <div class="file-actions">
+
+          <button
+            type="button"
+            class="file-action download-button"
+            title="Stiahnuť">
+            💾
+          </button>
+
+          <button
+            type="button"
+            class="file-action delete-button"
+            title="Zmazať">
+            🗑
+          </button>
+
+        </div>
+      `;
+
+      fileList.appendChild(fileRow);
+
+      addDeleteButton(fileRow);
+
+    });
+
+  }
 
 
   uploadButton.addEventListener("click", () => {
