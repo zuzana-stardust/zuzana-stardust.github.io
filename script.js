@@ -658,16 +658,76 @@ if (semesterButton) {
       const subject =
         document.getElementById("detail-subject");
 
-      if (!detail || !subject) {
+      const teacher =
+        document.getElementById("detail-teacher");
+
+      const room =
+        document.getElementById("detail-room");
+
+      if (
+        !detail ||
+        !subject ||
+        !teacher ||
+        !room
+      ) {
         return;
       }
+
 
       const predmet =
         subject.textContent.trim();
 
-      window.location.href =
-        "celosemestrovkaindex.html?predmet=" +
-        encodeURIComponent(predmet);
+      const ucitel =
+        teacher.textContent.trim();
+
+      const miestnost =
+        room.textContent.trim();
+
+
+      /* Nájdeme aktuálnu hodinu */
+
+      const lessons =
+        document.querySelectorAll(".lesson");
+
+      let cas = "";
+
+
+      lessons.forEach(function (lesson) {
+
+        const lessonSubject =
+          lesson.querySelector("h3");
+
+        if (
+          lessonSubject &&
+          lessonSubject.textContent.trim() === predmet
+        ) {
+
+          const time =
+            lesson.querySelector(".lesson-time");
+
+          if (time && !cas) {
+            cas =
+              time.textContent.trim();
+          }
+
+        }
+
+      });
+
+
+      const url =
+        "celosemestrovkaindex.html" +
+        "?predmet=" +
+        encodeURIComponent(predmet) +
+        "&cas=" +
+        encodeURIComponent(cas) +
+        "&ucitel=" +
+        encodeURIComponent(ucitel) +
+        "&miestnost=" +
+        encodeURIComponent(miestnost);
+
+
+      window.location.href = url;
 
     }
   );
