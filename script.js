@@ -767,23 +767,6 @@ if (semesterButton) {
   }
 
 
-  if (updatedButton) {
-
-    updatedButton.addEventListener(
-      "click",
-      function () {
-
-        alert(
-          "Predmet bol označený ako aktualizovaný."
-        );
-
-      }
-    );
-
-  }
-
-}
-
 
 // ==========================================
 // SPUSTENIE
