@@ -874,3 +874,5 @@ setInterval(
   updateCurrentLessons,
   60000
 );
+  
+}
