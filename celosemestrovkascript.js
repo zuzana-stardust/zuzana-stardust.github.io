@@ -1,3 +1,4 @@
+túto časť:
 /* =========================================
    AKTUÁLNY PREDMET Z URL
    ========================================= */
@@ -23,11 +24,6 @@ if (subjectName && predmet) {
     predmet;
 
 }
-
-const uploadButton = document.getElementById("upload-button");
-const fileInput = document.getElementById("file-upload");
-const fileList = document.getElementById("file-list");
-
 
 /* =========================================
    NAHRATIE SÚBORU
