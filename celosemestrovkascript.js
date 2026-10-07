@@ -296,27 +296,58 @@ document.addEventListener("DOMContentLoaded", () => {
      MAZANIE SÚBORU
      ========================================= */
 
-  function addDeleteButton(row) {
+ async function addDeleteButton(row) {
 
-    const deleteButton =
-      row.querySelector(".delete-button");
+  const deleteButton =
+    row.querySelector(".delete-button");
+
+  deleteButton.addEventListener("click", async () => {
+
+    const confirmed =
+      confirm(
+        "Naozaj chceš tento súbor zmazať?"
+      );
+
+    if (!confirmed) {
+      return;
+    }
 
 
-    deleteButton.addEventListener("click", () => {
+    const fileName =
+      row.querySelector(".file-name").textContent.trim();
 
-      const confirmed =
-        confirm(
-          "Naozaj chceš tento súbor zmazať?"
-        );
+    const safeSubject =
+      predmet || "nezaradene";
+
+    const filePath =
+      safeSubject + "/" + fileName;
 
 
-      if (confirmed) {
-        row.remove();
-      }
+    const { error } =
+      await supabaseClient
+        .storage
+        .from("rozvrhor")
+        .remove([filePath]);
 
-    });
 
-  }
+    if (error) {
+
+      console.error(
+        "Nepodarilo sa zmazať súbor:",
+        error
+      );
+
+      alert("Súbor sa nepodarilo zmazať.");
+
+      return;
+    }
+
+
+    row.remove();
+
+  });
+
+}
 
 
   /* =========================================
