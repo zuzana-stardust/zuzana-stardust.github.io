@@ -95,6 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       return;
     }
+    console.log("SUPABASE FILES:", data);
 
     data.forEach(file => {
 
