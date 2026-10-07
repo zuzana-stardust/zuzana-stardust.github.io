@@ -1,3 +1,15 @@
+const SUPABASE_URL =
+  "https://cpahudvkfpeqzizsrrbn.supabase.co";
+
+const SUPABASE_KEY =
+  "SEM_VLOZ_SVOJ_PUBLISHABLE_KEY";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
 document.addEventListener("DOMContentLoaded", () => {
 
   const params = new URLSearchParams(
