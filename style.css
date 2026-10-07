@@ -830,3 +830,17 @@ body {
         min-width: 700px;
     }
 }
+
+/* ==========================================
+   SAMOSTATNÉ STRÁNKY APLIKÁCIE
+========================================== */
+.subpage { max-width: 1100px; margin: 0 auto; padding: 30px 32px 50px; }
+.subpage-header { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-bottom:24px; }
+.subpage-header h2 { margin:0; font-size:28px; }
+.back-button { display:inline-flex; align-items:center; gap:7px; padding:9px 13px; border:1px solid #d8d4ce; border-radius:9px; background:#f8f5ef; color:#292725; text-decoration:none; font-size:12px; font-weight:700; }
+.back-button:hover { background:#e8e3dd; }
+.storage-card { padding:22px; background:#f8f5ef; border:1px solid #d8d4ce; border-radius:16px; box-shadow:0 8px 24px rgba(41,39,37,.06); }
+.storage-card h3 { margin:0 0 8px; }
+.storage-muted { color:#77716b; font-size:13px; line-height:1.5; }
+.storage-placeholder { padding:14px; margin-top:15px; border:1px dashed #c9c3bc; border-radius:10px; background:#eeece8; color:#625d58; font-size:13px; }
+@media (max-width:800px) { .subpage { padding:22px 18px 40px; } .subpage-header { align-items:flex-start; flex-direction:column; } .subpage-header h2 { font-size:23px; } }
