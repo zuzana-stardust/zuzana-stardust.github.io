@@ -777,7 +777,58 @@ if (semesterButton) {
 
   }
 
+if (updatedButton) {
 
+  updatedButton.addEventListener(
+    "click",
+    async function () {
+
+      const detail =
+        document.getElementById("lesson-detail");
+
+      const task =
+        document.getElementById("detail-task");
+
+      if (!detail || !task) {
+        return;
+      }
+
+      const lessonKey =
+        detail.dataset.lessonKey;
+
+      if (!lessonKey) {
+        return;
+      }
+
+      const { error } =
+        await supabaseClient
+          .from("lesson_tasks")
+          .upsert({
+            lesson_key: lessonKey,
+            task: task.value,
+            updated_at: new Date().toISOString()
+          });
+
+      if (error) {
+        console.error(
+          "Nepodarilo sa uložiť úlohu:",
+          error
+        );
+
+        alert(
+          "Úlohu sa nepodarilo uložiť."
+        );
+
+        return;
+      }
+
+      alert(
+        "Úloha bola uložená."
+      );
+    }
+  );
+
+}
 
 // ==========================================
 // SPUSTENIE
