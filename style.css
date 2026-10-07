@@ -844,3 +844,11 @@ body {
 .storage-muted { color:#77716b; font-size:13px; line-height:1.5; }
 .storage-placeholder { padding:14px; margin-top:15px; border:1px dashed #c9c3bc; border-radius:10px; background:#eeece8; color:#625d58; font-size:13px; }
 @media (max-width:800px) { .subpage { padding:22px 18px 40px; } .subpage-header { align-items:flex-start; flex-direction:column; } .subpage-header h2 { font-size:23px; } }
+
+.site-version {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px 0;
+    font-size: 12px;
+    opacity: 0.5;
+}
