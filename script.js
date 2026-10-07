@@ -435,7 +435,7 @@ function getTaskKey(lesson) {
 // OTVORENIE DETAILU
 // ==========================================
 
-function openLessonDetail(lesson) {
+async function openLessonDetail(lesson) {
 
   const detail =
     document.getElementById("lesson-detail");
@@ -492,20 +492,31 @@ function openLessonDetail(lesson) {
   }
 
 
-  // úloha
-  const savedTask =
-    localStorage.getItem(
-      getTaskKey(lesson)
-    );
+// úloha zo Supabase
+const lessonKey =
+  getTaskKey(lesson);
 
+detail.dataset.lessonKey =
+  lessonKey;
 
+task.value = "";
+
+const { data, error } =
+  await supabaseClient
+    .from("lesson_tasks")
+    .select("task")
+    .eq("lesson_key", lessonKey)
+    .maybeSingle();
+
+if (error) {
+  console.error(
+    "Nepodarilo sa načítať úlohu:",
+    error
+  );
+} else if (data) {
   task.value =
-    savedTask || "";
-
-
-  // uložíme aktuálny predmet
-  detail.dataset.lessonKey =
-    getTaskKey(lesson);
+    data.task || "";
+}
 
 
   // ==========================================
