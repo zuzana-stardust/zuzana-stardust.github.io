@@ -1,3 +1,14 @@
+const SUPABASE_URL =
+  "https://cpahudvkfpeqzizsrrbn.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_khnFozFe93qlkrW6lj4-9g_RedpxoOQ";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 // ==========================================
 // NASTAVENIE ROZVRHU
 // ==========================================
