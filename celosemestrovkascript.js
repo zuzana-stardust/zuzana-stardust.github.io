@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  fileInput.addEventListener("change", () => {
+    fileInput.addEventListener("change", async () => {
 
     const file =
       fileInput.files[0];
@@ -87,47 +87,78 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    try {
 
-    const fileRow =
-      document.createElement("div");
+      const safeSubject =
+        predmet || "nezaradene";
 
-    fileRow.className =
-      "file-row";
+      const filePath =
+        safeSubject + "/" +
+        Date.now() + "_" +
+        file.name;
 
+      const { error } =
+        await supabaseClient
+          .storage
+          .from("rozvrhor")
+          .upload(filePath, file);
 
-    fileRow.innerHTML = `
-      <div class="file-name">
-        ${file.name}
-      </div>
+      if (error) {
+        throw error;
+      }
 
-      <div class="file-actions">
+      const fileRow =
+        document.createElement("div");
 
-        <button
-          type="button"
-          class="file-action download-button"
-          title="Stiahnuť">
-          💾
-        </button>
+      fileRow.className =
+        "file-row";
 
-        <button
-          type="button"
-          class="file-action delete-button"
-          title="Zmazať">
-          🗑
-        </button>
+      fileRow.dataset.filePath =
+        filePath;
 
-      </div>
-    `;
+      fileRow.innerHTML = `
+        <div class="file-name">
+          ${file.name}
+        </div>
 
+        <div class="file-actions">
 
-    fileList.appendChild(fileRow);
+          <button
+            type="button"
+            class="file-action download-button"
+            title="Stiahnuť">
+            💾
+          </button>
 
-    fileInput.value = "";
+          <button
+            type="button"
+            class="file-action delete-button"
+            title="Zmazať">
+            🗑
+          </button>
 
-    addDeleteButton(fileRow);
+        </div>
+      `;
+
+      fileList.appendChild(fileRow);
+
+      fileInput.value = "";
+
+      addDeleteButton(fileRow);
+
+      alert("Súbor bol úspešne nahraný.");
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "Súbor sa nepodarilo nahrať."
+      );
+
+    }
 
   });
-
 
   /* =========================================
      MAZANIE SÚBORU
