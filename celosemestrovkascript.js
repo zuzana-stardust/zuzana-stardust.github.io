@@ -1,3 +1,29 @@
+/* =========================================
+   AKTUÁLNY PREDMET Z URL
+   ========================================= */
+
+const params = new URLSearchParams(
+  window.location.search
+);
+
+const predmet = params.get("predmet");
+
+
+/* =========================================
+   ZOBRAZENIE PREDMETU
+   ========================================= */
+
+const subjectName =
+  document.getElementById("subject-name");
+
+
+if (subjectName && predmet) {
+
+  subjectName.textContent =
+    predmet;
+
+}
+
 const uploadButton = document.getElementById("upload-button");
 const fileInput = document.getElementById("file-upload");
 const fileList = document.getElementById("file-list");
