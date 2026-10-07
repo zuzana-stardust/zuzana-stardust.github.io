@@ -74,6 +74,70 @@ document.addEventListener("DOMContentLoaded", () => {
    
   loadFiles();
 
+  fileList.addEventListener("click", async (event) => {
+
+  const downloadButton =
+    event.target.closest(".download-button");
+
+  if (!downloadButton) {
+    return;
+  }
+
+  const fileRow =
+    downloadButton.closest(".file-row");
+
+  if (!fileRow) {
+    return;
+  }
+
+  const fileName =
+    fileRow.querySelector(".file-name").textContent.trim();
+
+  const safeSubject =
+    predmet || "nezaradene";
+
+  const filePath =
+    safeSubject + "/" + fileName;
+
+
+  const { data, error } =
+    await supabaseClient
+      .storage
+      .from("rozvrhor")
+      .download(filePath);
+
+
+  if (error) {
+
+    console.error(
+      "Nepodarilo sa stiahnuť súbor:",
+      error
+    );
+
+    alert("Súbor sa nepodarilo stiahnuť.");
+
+    return;
+  }
+
+
+  const url =
+    URL.createObjectURL(data);
+
+  const link =
+    document.createElement("a");
+
+  link.href = url;
+  link.download = fileName;
+
+  document.body.appendChild(link);
+
+  link.click();
+
+  link.remove();
+
+  URL.revokeObjectURL(url);
+
+});
 
   async function loadFiles() {
 
