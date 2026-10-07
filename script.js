@@ -646,20 +646,33 @@ function setupDetailButtons() {
     );
 
 
-  if (semesterButton) {
+if (semesterButton) {
 
-    semesterButton.addEventListener(
-      "click",
-      function () {
+  semesterButton.addEventListener(
+    "click",
+    function () {
 
-        alert(
-          "Semestrálne úlohy sa zobrazia tu."
-        );
+      const detail =
+        document.getElementById("lesson-detail");
 
+      const subject =
+        document.getElementById("detail-subject");
+
+      if (!detail || !subject) {
+        return;
       }
-    );
 
-  }
+      const predmet =
+        subject.textContent.trim();
+
+      window.location.href =
+        "celosemestrovkaindex.html?predmet=" +
+        encodeURIComponent(predmet);
+
+    }
+  );
+
+}
 
 
   if (materialButton) {
