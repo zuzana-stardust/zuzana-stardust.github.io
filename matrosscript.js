@@ -94,7 +94,10 @@ if (uploadButton) {
                     // Matroš má vlastný priestor
                     // Matroš má vlastný priestor
 const safePredmet =
-    predmet.replace(/[\/\\#?%*:|"<>]/g, "-");
+    predmet
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[\/\\#?%*:|"<>]/g, "-");
 
 const filePath =
     "matros/" +
