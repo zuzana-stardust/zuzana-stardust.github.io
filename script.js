@@ -9,6 +9,8 @@ const supabaseClient =
     SUPABASE_URL,
     SUPABASE_KEY
   );
+
+
 // ==========================================
 // NASTAVENIE ROZVRHU
 // ==========================================
@@ -23,8 +25,12 @@ const HEADER_HEIGHT = 55;
 // ==========================================
 
 function timeToMinutes(time) {
-  const [hours, minutes] = time.split(":").map(Number);
+
+  const [hours, minutes] =
+    time.split(":").map(Number);
+
   return hours * 60 + minutes;
+
 }
 
 
@@ -34,11 +40,13 @@ function timeToMinutes(time) {
 
 function getLessonSubject(lesson) {
 
-  const element = lesson.querySelector("h3");
+  const element =
+    lesson.querySelector("h3");
 
   return element
     ? element.textContent.trim()
     : "Neznámy predmet";
+
 }
 
 
@@ -48,11 +56,13 @@ function getLessonSubject(lesson) {
 
 function getLessonTeacher(lesson) {
 
-  const element = lesson.querySelector("p");
+  const element =
+    lesson.querySelector("p");
 
   return element
     ? element.textContent.trim()
     : "Vyučujúci neuvedený";
+
 }
 
 
@@ -66,7 +76,9 @@ function getRoomNumber(code) {
     return "";
   }
 
+
   const rooms = {
+
     "DRB05110": "511",
     "DRB02210": "221",
     "DRB0514A": "514",
@@ -74,9 +86,12 @@ function getRoomNumber(code) {
     "DRB05150": "515",
     "DRB05190": "519",
     "DRB00150": "015"
+
   };
 
+
   return rooms[code] || code;
+
 }
 
 
@@ -117,6 +132,7 @@ function setupRooms() {
     }
 
   });
+
 }
 
 
@@ -180,15 +196,20 @@ function positionLessons() {
     // krátke hodiny = 60 min alebo menej
     if (duration <= 60) {
 
-      lesson.classList.add("lesson-short");
+      lesson.classList.add(
+        "lesson-short"
+      );
 
     } else {
 
-      lesson.classList.remove("lesson-short");
+      lesson.classList.remove(
+        "lesson-short"
+      );
 
     }
 
   });
+
 }
 
 
@@ -199,7 +220,9 @@ function positionLessons() {
 function updateDateTime() {
 
   const element =
-    document.getElementById("local-datetime");
+    document.getElementById(
+      "local-datetime"
+    );
 
 
   if (!element) {
@@ -212,22 +235,29 @@ function updateDateTime() {
 
 
   const date =
-    now.toLocaleDateString("sk-SK", {
-      day: "numeric",
-      month: "numeric",
-      year: "numeric"
-    });
+    now.toLocaleDateString(
+      "sk-SK",
+      {
+        day: "numeric",
+        month: "numeric",
+        year: "numeric"
+      }
+    );
 
 
   const time =
-    now.toLocaleTimeString("sk-SK", {
-      hour: "2-digit",
-      minute: "2-digit"
-    });
+    now.toLocaleTimeString(
+      "sk-SK",
+      {
+        hour: "2-digit",
+        minute: "2-digit"
+      }
+    );
 
 
   element.textContent =
     `${date} · ${time}`;
+
 }
 
 
@@ -238,14 +268,66 @@ function updateDateTime() {
 function getDayName(dayNumber) {
 
   const days = {
+
     1: "monday",
     2: "tuesday",
     3: "wednesday",
     4: "thursday"
+
   };
 
 
   return days[dayNumber];
+
+}
+
+
+// ==========================================
+// ČÍSLO TÝŽDŇA
+// ==========================================
+
+function getISOWeek(date) {
+
+  const tempDate =
+    new Date(
+      Date.UTC(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate()
+      )
+    );
+
+
+  const dayNumber =
+    tempDate.getUTCDay() || 7;
+
+
+  tempDate.setUTCDate(
+    tempDate.getUTCDate() +
+    4 -
+    dayNumber
+  );
+
+
+  const yearStart =
+    new Date(
+      Date.UTC(
+        tempDate.getUTCFullYear(),
+        0,
+        1
+      )
+    );
+
+
+  return Math.ceil(
+    (
+      (
+        (tempDate - yearStart) /
+        86400000
+      ) + 1
+    ) / 7
+  );
+
 }
 
 
@@ -269,16 +351,24 @@ function updateCurrentLessons() {
 
 
   const currentSubject =
-    document.getElementById("current-subject");
+    document.getElementById(
+      "current-subject"
+    );
 
   const currentInfo =
-    document.getElementById("current-info");
+    document.getElementById(
+      "current-info"
+    );
 
   const nextSubject =
-    document.getElementById("next-subject");
+    document.getElementById(
+      "next-subject"
+    );
 
   const nextInfo =
-    document.getElementById("next-info");
+    document.getElementById(
+      "next-info"
+    );
 
 
   if (
@@ -287,11 +377,16 @@ function updateCurrentLessons() {
     !nextSubject ||
     !nextInfo
   ) {
+
     return;
+
   }
 
 
-  // víkend
+  // ==========================================
+  // VÍKEND
+  // ==========================================
+
   if (day < 1 || day > 4) {
 
     currentSubject.textContent =
@@ -307,12 +402,37 @@ function updateCurrentLessons() {
       "Najbližšie hodiny sú v pondelok.";
 
     return;
+
   }
 
+
+  // ==========================================
+  // AKTUÁLNY TÝŽDEŇ
+  // ==========================================
+
+  const currentWeek =
+    getISOWeek(now);
+
+
+  const isOddWeek =
+    currentWeek % 2 === 1;
+
+
+  // ==========================================
+  // AKTUÁLNY DEŇ
+  // ==========================================
 
   const today =
     getDayName(day);
 
+
+  // ==========================================
+  // HODINY PRE AKTUÁLNY TÝŽDEŇ
+  //
+  // NP  = nepárny týždeň
+  // PT  = párny týždeň
+  // TYZ = každý týždeň
+  // ==========================================
 
   const lessons =
     [...document.querySelectorAll(".lesson")]
@@ -320,10 +440,52 @@ function updateCurrentLessons() {
         lesson =>
           lesson.dataset.day === today
       )
+      .filter(
+        lesson => {
+
+          const frequency =
+            lesson.dataset.frequency;
+
+
+          if (
+            frequency === "TYZ"
+          ) {
+
+            return true;
+
+          }
+
+
+          if (
+            frequency === "NP"
+          ) {
+
+            return isOddWeek;
+
+          }
+
+
+          if (
+            frequency === "PT"
+          ) {
+
+            return !isOddWeek;
+
+          }
+
+
+          return true;
+
+        }
+      )
       .sort(
         (a, b) =>
-          timeToMinutes(a.dataset.start) -
-          timeToMinutes(b.dataset.start)
+          timeToMinutes(
+            a.dataset.start
+          ) -
+          timeToMinutes(
+            b.dataset.start
+          )
       );
 
 
@@ -331,39 +493,46 @@ function updateCurrentLessons() {
   let next = null;
 
 
-  lessons.forEach(lesson => {
+  // ==========================================
+  // HĽADANIE TERAZ / NASLEDUJE
+  // ==========================================
 
-    const start =
-      timeToMinutes(
-        lesson.dataset.start
-      );
+  lessons.forEach(
+    lesson => {
 
-    const end =
-      timeToMinutes(
-        lesson.dataset.end
-      );
+      const start =
+        timeToMinutes(
+          lesson.dataset.start
+        );
 
 
-    if (
-      currentMinutes >= start &&
-      currentMinutes < end
-    ) {
+      const end =
+        timeToMinutes(
+          lesson.dataset.end
+        );
 
-      current = lesson;
+
+      if (
+        currentMinutes >= start &&
+        currentMinutes < end
+      ) {
+
+        current = lesson;
+
+      }
+
+
+      if (
+        start > currentMinutes &&
+        !next
+      ) {
+
+        next = lesson;
+
+      }
 
     }
-
-
-    if (
-      start > currentMinutes &&
-      !next
-    ) {
-
-      next = lesson;
-
-    }
-
-  });
+  );
 
 
   // ==========================================
@@ -376,8 +545,14 @@ function updateCurrentLessons() {
       getLessonSubject(current);
 
 
+    const currentRoom =
+      getRoomNumber(
+        current.dataset.roomCode
+      );
+
+
     currentInfo.textContent =
-      `${current.dataset.start} – ${current.dataset.end} · ${getLessonTeacher(current)}`;
+      `${current.dataset.start} – ${current.dataset.end} · ${getLessonTeacher(current)} · ${currentRoom}`;
 
   } else {
 
@@ -400,8 +575,14 @@ function updateCurrentLessons() {
       getLessonSubject(next);
 
 
+    const nextRoom =
+      getRoomNumber(
+        next.dataset.roomCode
+      );
+
+
     nextInfo.textContent =
-      `${next.dataset.start} – ${next.dataset.end} · ${getLessonTeacher(next)}`;
+      `${next.dataset.start} – ${next.dataset.end} · ${getLessonTeacher(next)} · ${nextRoom}`;
 
   } else {
 
@@ -438,19 +619,29 @@ function getTaskKey(lesson) {
 async function openLessonDetail(lesson) {
 
   const detail =
-    document.getElementById("lesson-detail");
+    document.getElementById(
+      "lesson-detail"
+    );
 
   const subject =
-    document.getElementById("detail-subject");
+    document.getElementById(
+      "detail-subject"
+    );
 
   const teacher =
-    document.getElementById("detail-teacher");
+    document.getElementById(
+      "detail-teacher"
+    );
 
   const room =
-    document.getElementById("detail-room");
+    document.getElementById(
+      "detail-room"
+    );
 
   const task =
-    document.getElementById("detail-task");
+    document.getElementById(
+      "detail-task"
+    );
 
 
   if (
@@ -460,7 +651,9 @@ async function openLessonDetail(lesson) {
     !room ||
     !task
   ) {
+
     return;
+
   }
 
 
@@ -492,41 +685,59 @@ async function openLessonDetail(lesson) {
   }
 
 
-// úloha zo Supabase
-const lessonKey =
-  getTaskKey(lesson);
+  // ==========================================
+  // ÚLOHA Z SUPABASE
+  // ==========================================
 
-detail.dataset.lessonKey =
-  lessonKey;
+  const lessonKey =
+    getTaskKey(lesson);
 
-task.value = "";
 
-const { data, error } =
-  await supabaseClient
-    .from("lesson_tasks")
-    .select("task")
-    .eq("lesson_key", lessonKey)
-    .maybeSingle();
+  detail.dataset.lessonKey =
+    lessonKey;
 
-if (error) {
-  console.error(
-    "Nepodarilo sa načítať úlohu:",
-    error
+
+  task.value = "";
+
+
+  const { data, error } =
+    await supabaseClient
+      .from("lesson_tasks")
+      .select("task")
+      .eq(
+        "lesson_key",
+        lessonKey
+      )
+      .maybeSingle();
+
+
+  if (error) {
+
+    console.error(
+      "Nepodarilo sa načítať úlohu:",
+      error
+    );
+
+  } else if (data) {
+
+    task.value =
+      data.task || "";
+
+  }
+
+
+  // ==========================================
+  // ZOBRAZENIE DETAILU
+  // ==========================================
+
+  detail.classList.remove(
+    "hidden"
   );
-} else if (data) {
-  task.value =
-    data.task || "";
-}
 
 
-  // ==========================================
-  // HLAVNÁ OPRAVA:
-  // odstránime hidden TRIEDU
-  // ==========================================
-
-  detail.classList.remove("hidden");
-
-  detail.removeAttribute("hidden");
+  detail.removeAttribute(
+    "hidden"
+  );
 
 
   // scroll na detail
@@ -545,21 +756,27 @@ if (error) {
 function setupLessonClicks() {
 
   const lessons =
-    document.querySelectorAll(".lesson");
-
-
-  lessons.forEach(lesson => {
-
-    lesson.addEventListener(
-      "click",
-      function () {
-
-        openLessonDetail(lesson);
-
-      }
+    document.querySelectorAll(
+      ".lesson"
     );
 
-  });
+
+  lessons.forEach(
+    lesson => {
+
+      lesson.addEventListener(
+        "click",
+        function () {
+
+          openLessonDetail(
+            lesson
+          );
+
+        }
+      );
+
+    }
+  );
 
 }
 
@@ -571,14 +788,23 @@ function setupLessonClicks() {
 function setupCloseButton() {
 
   const closeButton =
-    document.getElementById("close-detail");
+    document.getElementById(
+      "close-detail"
+    );
 
   const detail =
-    document.getElementById("lesson-detail");
+    document.getElementById(
+      "lesson-detail"
+    );
 
 
-  if (!closeButton || !detail) {
+  if (
+    !closeButton ||
+    !detail
+  ) {
+
     return;
+
   }
 
 
@@ -586,7 +812,10 @@ function setupCloseButton() {
     "click",
     function () {
 
-      detail.classList.add("hidden");
+      detail.classList.add(
+        "hidden"
+      );
+
 
       detail.setAttribute(
         "hidden",
@@ -606,14 +835,23 @@ function setupCloseButton() {
 function setupTaskSaving() {
 
   const task =
-    document.getElementById("detail-task");
+    document.getElementById(
+      "detail-task"
+    );
 
   const detail =
-    document.getElementById("lesson-detail");
+    document.getElementById(
+      "lesson-detail"
+    );
 
 
-  if (!task || !detail) {
+  if (
+    !task ||
+    !detail
+  ) {
+
     return;
+
   }
 
 
@@ -668,126 +906,192 @@ function setupDetailButtons() {
     );
 
 
-if (semesterButton) {
+  // ==========================================
+  // CELOSEMESTROVKA
+  // ==========================================
 
-  semesterButton.addEventListener(
-    "click",
-    function () {
+  if (semesterButton) {
 
-      const detail =
-        document.getElementById("lesson-detail");
+    semesterButton.addEventListener(
+      "click",
+      function () {
 
-      const subject =
-        document.getElementById("detail-subject");
+        const detail =
+          document.getElementById(
+            "lesson-detail"
+          );
 
-      const teacher =
-        document.getElementById("detail-teacher");
+        const subject =
+          document.getElementById(
+            "detail-subject"
+          );
 
-      const room =
-        document.getElementById("detail-room");
+        const teacher =
+          document.getElementById(
+            "detail-teacher"
+          );
 
-      if (
-        !detail ||
-        !subject ||
-        !teacher ||
-        !room
-      ) {
-        return;
-      }
+        const room =
+          document.getElementById(
+            "detail-room"
+          );
 
-
-      const predmet =
-        subject.textContent.trim();
-
-      const ucitel =
-        teacher.textContent.trim();
-
-      const miestnost =
-        room.textContent.trim();
-
-
-      /* Nájdeme aktuálnu hodinu */
-
-      const lessons =
-        document.querySelectorAll(".lesson");
-
-      let cas = "";
-
-
-      lessons.forEach(function (lesson) {
-
-        const lessonSubject =
-          lesson.querySelector("h3");
 
         if (
-          lessonSubject &&
-          lessonSubject.textContent.trim() === predmet
+          !detail ||
+          !subject ||
+          !teacher ||
+          !room
         ) {
 
-          const time =
-            lesson.querySelector(".lesson-time");
-
-          if (time && !cas) {
-            cas =
-              time.textContent.trim();
-          }
+          return;
 
         }
 
-      });
+
+        const predmet =
+          subject.textContent.trim();
 
 
-      const url =
-        "celosemestrovkaindex.html" +
-        "?predmet=" +
-        encodeURIComponent(predmet) +
-        "&cas=" +
-        encodeURIComponent(cas) +
-        "&ucitel=" +
-        encodeURIComponent(ucitel) +
-        "&miestnost=" +
-        encodeURIComponent(miestnost);
+        const ucitel =
+          teacher.textContent.trim();
 
 
-      window.location.href = url;
-
-    }
-  );
-
-}
+        const miestnost =
+          room.textContent.trim();
 
 
- if (materialButton) {
+        // Nájdeme aktuálnu hodinu
+        const lessons =
+          document.querySelectorAll(
+            ".lesson"
+          );
 
-    materialButton.addEventListener(
-        "click",
-        function () {
 
-            const detail =
-                document.getElementById("lesson-detail");
+        let cas = "";
 
-            const subject =
-                document.getElementById("detail-subject");
 
-            if (!detail || !subject) {
-                return;
+        lessons.forEach(
+          function (lesson) {
+
+            const lessonSubject =
+              lesson.querySelector(
+                "h3"
+              );
+
+
+            if (
+              lessonSubject &&
+              lessonSubject.textContent.trim() ===
+                predmet
+            ) {
+
+              const time =
+                lesson.querySelector(
+                  ".lesson-time"
+                );
+
+
+              if (
+                time &&
+                !cas
+              ) {
+
+                cas =
+                  time.textContent.trim();
+
+              }
+
             }
 
-            const predmet =
-                subject.textContent.trim();
+          }
+        );
 
-            const url =
-                "matrosindex.html" +
-                "?predmet=" +
-                encodeURIComponent(predmet);
 
-            window.location.href = url;
+        const url =
+          "celosemestrovkaindex.html" +
+          "?predmet=" +
+          encodeURIComponent(
+            predmet
+          ) +
+          "&cas=" +
+          encodeURIComponent(
+            cas
+          ) +
+          "&ucitel=" +
+          encodeURIComponent(
+            ucitel
+          ) +
+          "&miestnost=" +
+          encodeURIComponent(
+            miestnost
+          );
 
-        }
+
+        window.location.href =
+          url;
+
+      }
     );
 
-}
+  }
 
+
+  // ==========================================
+  // MATROŠ
+  // ==========================================
+
+  if (materialButton) {
+
+    materialButton.addEventListener(
+      "click",
+      function () {
+
+        const detail =
+          document.getElementById(
+            "lesson-detail"
+          );
+
+        const subject =
+          document.getElementById(
+            "detail-subject"
+          );
+
+
+        if (
+          !detail ||
+          !subject
+        ) {
+
+          return;
+
+        }
+
+
+        const predmet =
+          subject.textContent.trim();
+
+
+        const url =
+          "matrosindex.html" +
+          "?predmet=" +
+          encodeURIComponent(
+            predmet
+          );
+
+
+        window.location.href =
+          url;
+
+      }
+    );
+
+  }
+
+
+  // ==========================================
+  // KALENDÁR
+  // ==========================================
 
   if (calendarButton) {
 
@@ -804,65 +1108,100 @@ if (semesterButton) {
 
   }
 
-if (updatedButton) {
 
-  updatedButton.addEventListener(
-    "click",
-    async function () {
+  // ==========================================
+  // ULOŽIŤ / AKTUALIZOVAŤ ÚLOHU
+  // ==========================================
 
-      const detail =
-        document.getElementById("lesson-detail");
+  if (updatedButton) {
 
-      const task =
-        document.getElementById("detail-task");
+    updatedButton.addEventListener(
+      "click",
+      async function () {
 
-      if (!detail || !task) {
-        return;
-      }
+        const detail =
+          document.getElementById(
+            "lesson-detail"
+          );
 
-      const lessonKey =
-        detail.dataset.lessonKey;
+        const task =
+          document.getElementById(
+            "detail-task"
+          );
 
-      if (!lessonKey) {
-        return;
-      }
 
-      const { error } =
-        await supabaseClient
-          .from("lesson_tasks")
-         .upsert(
-    {
-        lesson_key: lessonKey,
-        task: task.value,
-        updated_at: new Date().toISOString()
-    },
-    {
-        onConflict: "lesson_key"
-    }
-);
+        if (
+          !detail ||
+          !task
+        ) {
 
-      if (error) {
-        console.error(
-          "Nepodarilo sa uložiť úlohu:",
-          error
-        );
+          return;
+
+        }
+
+
+        const lessonKey =
+          detail.dataset.lessonKey;
+
+
+        if (!lessonKey) {
+
+          return;
+
+        }
+
+
+        const { error } =
+          await supabaseClient
+            .from("lesson_tasks")
+            .upsert(
+              {
+                lesson_key:
+                  lessonKey,
+
+                task:
+                  task.value,
+
+                updated_at:
+                  new Date().toISOString()
+              },
+              {
+                onConflict:
+                  "lesson_key"
+              }
+            );
+
+
+        if (error) {
+
+          console.error(
+            "Nepodarilo sa uložiť úlohu:",
+            error
+          );
+
+
+          alert(
+            "Úlohu sa nepodarilo uložiť."
+          );
+
+
+          return;
+
+        }
+
 
         alert(
-          "Úlohu sa nepodarilo uložiť."
+          "Úloha bola uložená."
         );
 
-        return;
       }
+    );
 
-      alert(
-        "Úloha bola uložená."
-      );
-    }
-  );
+  }
 
 }
 
-}
+
 // ==========================================
 // SPUSTENIE
 // ==========================================
@@ -895,16 +1234,21 @@ function init() {
 init();
 
 
-// čas
+// ==========================================
+// AKTUALIZÁCIA ČASU
+// ==========================================
+
 setInterval(
   updateDateTime,
   1000
 );
 
 
-// aktuálna hodina
+// ==========================================
+// AKTUALIZÁCIA AKTUÁLNEJ HODINY
+// ==========================================
+
 setInterval(
   updateCurrentLessons,
   60000
 );
-  
