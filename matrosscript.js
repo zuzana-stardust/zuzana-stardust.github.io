@@ -139,27 +139,27 @@ async function loadMaterials() {
 
 
         // ==========================================
-        // OTVORIŤ SÚBOR
+        // ULOŽIŤ SÚBOR
         // ==========================================
 
-        const openButton =
+        const downloadButton =
             document.createElement("button");
 
-        openButton.className =
+        downloadButton.className =
             "file-action";
 
-        openButton.type =
+        downloadButton.type =
             "button";
 
-        openButton.textContent =
-            "↗";
+        downloadButton.textContent =
+            "💾";
 
-        openButton.title =
-            "Otvoriť súbor";
+        downloadButton.title =
+            "Uložiť súbor";
 
-        openButton.addEventListener(
+        downloadButton.addEventListener(
             "click",
-            function () {
+            async function () {
 
                 const filePath =
                     "matros/" +
@@ -167,17 +167,50 @@ async function loadMaterials() {
                     "/" +
                     file.name;
 
-                const { data } =
-                    supabaseClient
+                const { data, error } =
+                    await supabaseClient
                         .storage
                         .from("rozvrhor")
-                        .getPublicUrl(
+                        .download(
                             filePath
                         );
 
-                window.open(
-                    data.publicUrl,
-                    "_blank"
+                if (error) {
+
+                    console.error(
+                        "Chyba pri sťahovaní súboru:",
+                        error
+                    );
+
+                    alert(
+                        "Súbor sa nepodarilo uložiť."
+                    );
+
+                    return;
+                }
+
+                const url =
+                    URL.createObjectURL(data);
+
+                const link =
+                    document.createElement("a");
+
+                link.href =
+                    url;
+
+                link.download =
+                    file.name;
+
+                document.body.appendChild(
+                    link
+                );
+
+                link.click();
+
+                link.remove();
+
+                URL.revokeObjectURL(
+                    url
                 );
             }
         );
@@ -253,7 +286,7 @@ async function loadMaterials() {
         // ==========================================
 
         actions.appendChild(
-            openButton
+            downloadButton
         );
 
         actions.appendChild(
