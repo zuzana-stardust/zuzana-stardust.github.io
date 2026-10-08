@@ -112,6 +112,11 @@ async function loadMaterials() {
         row.className =
             "file-row";
 
+
+        // ==========================================
+        // NÁZOV SÚBORU
+        // ==========================================
+
         const name =
             document.createElement("div");
 
@@ -121,7 +126,70 @@ async function loadMaterials() {
         name.textContent =
             file.name;
 
+
+        // ==========================================
+        // AKCIE
+        // ==========================================
+
+        const actions =
+            document.createElement("div");
+
+        actions.className =
+            "file-actions";
+
+
+        // ==========================================
+        // OTVORIŤ SÚBOR
+        // ==========================================
+
+        const openButton =
+            document.createElement("button");
+
+        openButton.className =
+            "file-action";
+
+        openButton.type =
+            "button";
+
+        openButton.textContent =
+            "↗";
+
+        openButton.title =
+            "Otvoriť súbor";
+
+        openButton.addEventListener(
+            "click",
+            function () {
+
+                const filePath =
+                    "matros/" +
+                    safePredmet +
+                    "/" +
+                    file.name;
+
+                const { data } =
+                    supabaseClient
+                        .storage
+                        .from("rozvrhor")
+                        .getPublicUrl(
+                            filePath
+                        );
+
+                window.open(
+                    data.publicUrl,
+                    "_blank"
+                );
+            }
+        );
+
+
+        actions.appendChild(
+            openButton
+        );
+
         row.appendChild(name);
+
+        row.appendChild(actions);
 
         materialsList.appendChild(row);
     });
