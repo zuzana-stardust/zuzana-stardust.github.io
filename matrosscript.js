@@ -183,8 +183,81 @@ async function loadMaterials() {
         );
 
 
+        // ==========================================
+        // VYMAZAŤ SÚBOR
+        // ==========================================
+
+        const deleteButton =
+            document.createElement("button");
+
+        deleteButton.className =
+            "file-action";
+
+        deleteButton.type =
+            "button";
+
+        deleteButton.textContent =
+            "🗑";
+
+        deleteButton.title =
+            "Vymazať súbor";
+
+        deleteButton.addEventListener(
+            "click",
+            async function () {
+
+                const confirmed =
+                    confirm(
+                        `Naozaj chceš vymazať súbor "${file.name}"?`
+                    );
+
+                if (!confirmed) {
+                    return;
+                }
+
+                const filePath =
+                    "matros/" +
+                    safePredmet +
+                    "/" +
+                    file.name;
+
+                const { error } =
+                    await supabaseClient
+                        .storage
+                        .from("rozvrhor")
+                        .remove([
+                            filePath
+                        ]);
+
+                if (error) {
+
+                    console.error(
+                        "Chyba pri mazaní súboru:",
+                        error
+                    );
+
+                    alert(
+                        "Súbor sa nepodarilo vymazať."
+                    );
+
+                    return;
+                }
+
+                await loadMaterials();
+            }
+        );
+
+
+        // ==========================================
+        // PRIDAŤ TLAČIDLÁ
+        // ==========================================
+
         actions.appendChild(
             openButton
+        );
+
+        actions.appendChild(
+            deleteButton
         );
 
         row.appendChild(name);
