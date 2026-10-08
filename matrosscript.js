@@ -1,4 +1,5 @@
 console.log("MATROS SCRIPT FUNGUJE");
+
 const SUPABASE_URL =
     "https://cpahudvkfpeqzizsrrbn.supabase.co";
 
@@ -63,6 +64,71 @@ if (backButton) {
 
 
 // ==========================================
+// ZOZNAM MATERIÁLOV
+// ==========================================
+
+async function loadMaterials() {
+
+    const materialsList =
+        document.getElementById("materials-list");
+
+    if (!materialsList) {
+        return;
+    }
+
+    const safePredmet =
+        predmet
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/[\/\\#?%*:|"<>]/g, "-");
+
+    const folderPath =
+        "matros/" +
+        safePredmet;
+
+    const { data, error } =
+        await supabaseClient
+            .storage
+            .from("rozvrhor")
+            .list(folderPath);
+
+    if (error) {
+
+        console.error(
+            "Chyba pri načítaní materiálov:",
+            error
+        );
+
+        return;
+    }
+
+    materialsList.innerHTML = "";
+
+    data.forEach(function (file) {
+
+        const row =
+            document.createElement("div");
+
+        row.className =
+            "file-row";
+
+        const name =
+            document.createElement("div");
+
+        name.className =
+            "file-name";
+
+        name.textContent =
+            file.name;
+
+        row.appendChild(name);
+
+        materialsList.appendChild(row);
+    });
+}
+
+
+// ==========================================
 // NAHRAŤ MATERIÁL
 // ==========================================
 
@@ -92,18 +158,18 @@ if (uploadButton) {
                     }
 
                     // Matroš má vlastný priestor
-                    // Matroš má vlastný priestor
-const safePredmet =
-    predmet
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[\/\\#?%*:|"<>]/g, "-");
+                    const safePredmet =
+                        predmet
+                            .normalize("NFD")
+                            .replace(/[\u0300-\u036f]/g, "")
+                            .replace(/[\/\\#?%*:|"<>]/g, "-");
 
-const filePath =
-    "matros/" +
-    safePredmet +
-    "/" +
-    file.name;
+                    const filePath =
+                        "matros/" +
+                        safePredmet +
+                        "/" +
+                        file.name;
+
                     const { error } =
                         await supabaseClient
                             .storage
@@ -130,6 +196,8 @@ const filePath =
                     alert(
                         "Súbor bol úspešne nahraný."
                     );
+
+                    await loadMaterials();
                 }
             );
 
@@ -137,3 +205,10 @@ const filePath =
         }
     );
 }
+
+
+// ==========================================
+// NAČÍTAŤ MATERIÁLY PRI OTVORENÍ
+// ==========================================
+
+loadMaterials();
