@@ -1,102 +1,339 @@
+/* =========================================
+   rozvrhoR — Matroš
+   ========================================= */
+
 * {
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
+    padding: 0;
     background: #eeece8;
     color: #292725;
     font-family: Arial, Helvetica, sans-serif;
 }
 
+
+/* =========================================
+   HLAVNÁ STRÁNKA
+   ========================================= */
+
 .matros-page {
-    width: min(900px, 92%);
+    width: min(1100px, calc(100% - 40px));
     margin: 0 auto;
-    padding: 30px 0 60px;
+    padding: 28px 0 60px;
 }
 
+
+/* =========================================
+   SPÄŤ
+   ========================================= */
+
 #back-button {
-    border: none;
-    background: transparent;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
+    padding: 11px 17px;
+
+    background: #ffffff;
     color: #292725;
+
+    border: 1px solid #d8d4ce;
+    border-radius: 12px;
+
+    font-family: inherit;
     font-size: 14px;
+    font-weight: 600;
+
     cursor: pointer;
-    padding: 8px 0;
-    opacity: 0.7;
+
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 #back-button:hover {
-    opacity: 1;
+    background: #f7f5f2;
+
+    transform: translateY(-1px);
+
+    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.07);
 }
 
+
+/* =========================================
+   HLAVIČKA
+   ========================================= */
+
 #matros-title {
-    margin: 45px 0 8px;
-    font-size: 32px;
-    font-weight: 600;
+    margin: 45px 0 12px;
+
+    font-size: clamp(32px, 5vw, 52px);
+    line-height: 1.1;
+    font-weight: 700;
+
+    letter-spacing: -1px;
 }
 
 #matros-info {
-    margin: 0 0 30px;
-    opacity: 0.6;
+    margin: 0 0 45px;
+
+    color: #77736e;
+
+    font-size: 15px;
+    line-height: 1.5;
 }
+
+
+/* =========================================
+   ZOZNAM MATERIÁLOV
+   ========================================= */
 
 #materials-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+
+    border-top: 1px solid #e5e1dc;
 }
+
+
+/* =========================================
+   JEDEN MATERIÁL
+   ========================================= */
 
 .material-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 15px;
-    padding: 15px 18px;
-    background: #f7f5f1;
-    border-radius: 12px;
+
+    gap: 20px;
+
+    min-height: 64px;
+
+    padding: 12px 4px;
+
+    border-bottom: 1px solid #e5e1dc;
+
+    transition:
+        background 0.2s ease,
+        padding 0.2s ease;
 }
 
-.material-name {
-    font-size: 15px;
+.material-item:hover {
+    background: #faf9f7;
 }
+
+
+/* =========================================
+   NÁZOV MATERIÁLU
+   ========================================= */
+
+.material-name {
+    min-width: 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    font-size: 15px;
+    font-weight: 500;
+}
+
+
+/* =========================================
+   TLAČIDLÁ PRI MATERIÁLI
+   ========================================= */
 
 .material-actions {
     display: flex;
-    gap: 8px;
+    align-items: center;
+    gap: 7px;
+
+    flex-shrink: 0;
 }
 
 .material-actions button {
-    border: none;
-    background: transparent;
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 1px solid #ddd9d3;
+    border-radius: 10px;
+
+    background: #ffffff;
+    color: #292725;
+
+    font-size: 17px;
+
     cursor: pointer;
-    font-size: 16px;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        border-color 0.2s ease;
 }
 
+.material-actions button:hover {
+    background: #f3f1ed;
+
+    border-color: #cfcac3;
+
+    transform: translateY(-1px);
+}
+
+.material-actions button:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================
+   NAHRAŤ MATERIÁL
+   ========================================= */
+
 #upload-button {
-    margin-top: 25px;
-    padding: 12px 18px;
     border: none;
-    border-radius: 10px;
-    background: #dedad3;
-    color: #292725;
-    cursor: pointer;
+
+    margin-top: 22px;
+
+    padding: 11px 17px;
+
+    border-radius: 11px;
+
+    background: #292725;
+    color: #ffffff;
+
+    font-family: inherit;
     font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 #upload-button:hover {
-    background: #d3cec6;
+    background: #45413d;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 12px rgba(0, 0, 0, 0.12);
 }
 
-@media (max-width: 600px) {
+#upload-button:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================
+   PRÁZDNY ZOZNAM
+   ========================================= */
+
+#materials-list:empty::after {
+    content: "Zatiaľ tu nie sú žiadne materiály.";
+
+    display: block;
+
+    padding: 30px 5px;
+
+    color: #8a8680;
+
+    text-align: center;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   MOBIL
+   ========================================= */
+
+@media (max-width: 700px) {
+
     .matros-page {
-        width: 90%;
+        width: min(100% - 24px, 1100px);
+
+        padding-top: 18px;
+        padding-bottom: 35px;
     }
 
     #matros-title {
-        font-size: 27px;
+        margin-top: 35px;
+
+        font-size: 32px;
+    }
+
+    #matros-info {
+        font-size: 14px;
+
+        margin-bottom: 32px;
+    }
+
+    #upload-button {
+        width: 100%;
     }
 
     .material-item {
-        align-items: flex-start;
+        min-height: 60px;
+
+        gap: 12px;
+    }
+
+    .material-name {
+        font-size: 14px;
+    }
+
+    .material-actions button {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+
+/* =========================================
+   VEĽMI MALÉ MOBILY
+   ========================================= */
+
+@media (max-width: 430px) {
+
+    .matros-page {
+        width: min(100% - 24px, 1100px);
+    }
+
+    #back-button {
+        font-size: 13px;
+        padding: 10px 14px;
+    }
+
+    #matros-title {
+        font-size: 28px;
+    }
+
+    .material-actions {
+        gap: 5px;
+    }
+
+    .material-actions button {
+        width: 34px;
+        height: 34px;
+
+        font-size: 15px;
     }
 }
