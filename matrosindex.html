@@ -15,25 +15,61 @@
 
     <main class="matros-page">
 
-        <button id="back-button" type="button">
-            ← flip a bitch
-        </button>
+        <!-- SPÄŤ -->
+        <div class="matros-top">
+            <button id="back-button" type="button">
+                <span class="back-arrow">←</span>
+                flip a bitch
+            </button>
+        </div>
 
-        <h1 id="matros-title">Matroš</h1>
 
-        <p id="matros-info">
-            Materiály k predmetu
-        </p>
+        <!-- HLAVIČKA PREDMETU -->
+        <header class="subject-header">
 
-        <section id="materials-list">
-            <!-- materiály sa zobrazia sem -->
+            <h1 id="matros-title">
+                Matroš
+            </h1>
+
+            <p id="matros-info">
+                Materiály k predmetu
+            </p>
+
+        </header>
+
+
+        <!-- HLAVNÝ OBSAH -->
+        <section class="matros-content">
+
+            <div class="content-heading">
+
+                <h2>
+                    Materiály
+                </h2>
+
+                <button
+                    id="upload-button"
+                    type="button"
+                    class="upload-button"
+                >
+                    + Nahrať materiál
+                </button>
+
+            </div>
+
+
+            <!-- ZOZNAM MATERIÁLOV -->
+            <div
+                id="materials-list"
+                class="file-list"
+            >
+                <!-- materiály sa zobrazia sem -->
+            </div>
+
         </section>
 
-        <button id="upload-button" type="button">
-            + Nahrať materiál
-        </button>
-
     </main>
+
 
     <script src="matrosscript.js"></script>
 
