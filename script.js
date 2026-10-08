@@ -814,11 +814,16 @@ if (updatedButton) {
       const { error } =
         await supabaseClient
           .from("lesson_tasks")
-          .upsert({
-            lesson_key: lessonKey,
-            task: task.value,
-            updated_at: new Date().toISOString()
-          });
+         .upsert(
+    {
+        lesson_key: lessonKey,
+        task: task.value,
+        updated_at: new Date().toISOString()
+    },
+    {
+        onConflict: "lesson_key"
+    }
+);
 
       if (error) {
         console.error(
