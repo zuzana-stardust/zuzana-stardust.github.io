@@ -1,3 +1,4 @@
+console.log("MATROS SCRIPT FUNGUJE");
 const SUPABASE_URL =
     "https://cpahudvkfpeqzizsrrbn.supabase.co";
 
