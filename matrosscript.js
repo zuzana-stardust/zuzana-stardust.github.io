@@ -59,3 +59,74 @@ if (backButton) {
         }
     );
 }
+
+
+// ==========================================
+// NAHRAŤ MATERIÁL
+// ==========================================
+
+const uploadButton =
+    document.getElementById("upload-button");
+
+if (uploadButton) {
+
+    uploadButton.addEventListener(
+        "click",
+        function () {
+
+            const input =
+                document.createElement("input");
+
+            input.type = "file";
+
+            input.addEventListener(
+                "change",
+                async function () {
+
+                    const file =
+                        input.files[0];
+
+                    if (!file) {
+                        return;
+                    }
+
+                    // Matroš má vlastný priestor
+                    const filePath =
+                        "matros/" +
+                        predmet +
+                        "/" +
+                        file.name;
+
+                    const { error } =
+                        await supabaseClient
+                            .storage
+                            .from("rozvrhor")
+                            .upload(
+                                filePath,
+                                file
+                            );
+
+                    if (error) {
+
+                        console.error(
+                            "Chyba pri nahrávaní:",
+                            error
+                        );
+
+                        alert(
+                            "Súbor sa nepodarilo nahrať."
+                        );
+
+                        return;
+                    }
+
+                    alert(
+                        "Súbor bol úspešne nahraný."
+                    );
+                }
+            );
+
+            input.click();
+        }
+    );
+}
