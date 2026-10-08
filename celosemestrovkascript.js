@@ -23,6 +23,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* =========================================
+     BEZPEČNÝ NÁZOV PREDMETU
+     ========================================= */
+
+  const safeSubject =
+    (predmet || "nezaradene")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[\/\\#?%*:|"<>]/g, "-");
+
+
+  /* =========================================
      ZOBRAZENIE PREDMETU
      ========================================= */
 
@@ -60,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* =========================================
-     NAHRATIE SÚBORU
+     ELEMENTY
      ========================================= */
 
   const uploadButton =
@@ -71,78 +82,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const fileList =
     document.getElementById("file-list");
-   
+
+
+  /* =========================================
+     NAČÍTANIE SÚBOROV
+     ========================================= */
+
   loadFiles();
 
-  fileList.addEventListener("click", async (event) => {
-
-  const downloadButton =
-    event.target.closest(".download-button");
-
-  if (!downloadButton) {
-    return;
-  }
-
-  const fileRow =
-    downloadButton.closest(".file-row");
-
-  if (!fileRow) {
-    return;
-  }
-
-  const fileName =
-    fileRow.querySelector(".file-name").textContent.trim();
-
-  const safeSubject =
-    predmet || "nezaradene";
-
-  const filePath =
-    safeSubject + "/" + fileName;
-
-
-  const { data, error } =
-    await supabaseClient
-      .storage
-      .from("rozvrhor")
-      .download(filePath);
-
-
-  if (error) {
-
-    console.error(
-      "Nepodarilo sa stiahnuť súbor:",
-      error
-    );
-
-    alert("Súbor sa nepodarilo stiahnuť.");
-
-    return;
-  }
-
-
-  const url =
-    URL.createObjectURL(data);
-
-  const link =
-    document.createElement("a");
-
-  link.href = url;
-  link.download = fileName;
-
-  document.body.appendChild(link);
-
-  link.click();
-
-  link.remove();
-
-  URL.revokeObjectURL(url);
-
-});
 
   async function loadFiles() {
-
-    const safeSubject =
-      predmet || "nezaradene";
 
     const { data, error } =
       await supabaseClient
@@ -159,7 +108,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       return;
     }
-    console.log("SUPABASE FILES:", data);
+
+    console.log(
+      "SUPABASE FILES:",
+      data
+    );
 
     data.forEach(file => {
 
@@ -196,158 +149,295 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       `;
 
-      fileList.appendChild(fileRow);
+      fileList.appendChild(
+        fileRow
+      );
 
-      addDeleteButton(fileRow);
+      addDeleteButton(
+        fileRow
+      );
 
     });
 
   }
 
 
-  uploadButton.addEventListener("click", () => {
-    fileInput.click();
-  });
+  /* =========================================
+     STIAHNUTIE SÚBORU
+     ========================================= */
 
+  fileList.addEventListener(
+    "click",
+    async (event) => {
 
-    fileInput.addEventListener("change", async () => {
+      const downloadButton =
+        event.target.closest(
+          ".download-button"
+        );
 
-    const file =
-      fileInput.files[0];
-
-    if (!file) {
-      return;
-    }
-
-    try {
-
-      const safeSubject =
-        predmet || "nezaradene";
-
-      const filePath =
-        safeSubject + "/" +
-        Date.now() + "_" +
-        file.name;
-
-      const { error } =
-        await supabaseClient
-          .storage
-          .from("rozvrhor")
-          .upload(filePath, file);
-
-      if (error) {
-        throw error;
+      if (!downloadButton) {
+        return;
       }
 
       const fileRow =
-        document.createElement("div");
+        downloadButton.closest(
+          ".file-row"
+        );
 
-      fileRow.className =
-        "file-row";
+      if (!fileRow) {
+        return;
+      }
 
-      fileRow.dataset.filePath =
-        filePath;
+      const fileName =
+        fileRow
+          .querySelector(".file-name")
+          .textContent
+          .trim();
 
-      fileRow.innerHTML = `
-        <div class="file-name">
-          ${file.name}
-        </div>
+      const filePath =
+        safeSubject +
+        "/" +
+        fileName;
 
-        <div class="file-actions">
 
-          <button
-            type="button"
-            class="file-action download-button"
-            title="Stiahnuť">
-            💾
-          </button>
+      const { data, error } =
+        await supabaseClient
+          .storage
+          .from("rozvrhor")
+          .download(
+            filePath
+          );
 
-          <button
-            type="button"
-            class="file-action delete-button"
-            title="Zmazať">
-            🗑
-          </button>
 
-        </div>
-      `;
+      if (error) {
 
-      fileList.appendChild(fileRow);
+        console.error(
+          "Nepodarilo sa stiahnuť súbor:",
+          error
+        );
 
-      fileInput.value = "";
+        alert(
+          "Súbor sa nepodarilo stiahnuť."
+        );
 
-      addDeleteButton(fileRow);
+        return;
+      }
 
-      alert("Súbor bol úspešne nahraný.");
 
-    } catch (error) {
+      const url =
+        URL.createObjectURL(data);
 
-      console.error(error);
+      const link =
+        document.createElement("a");
 
-      alert(
-        "Súbor sa nepodarilo nahrať."
+      link.href =
+        url;
+
+      link.download =
+        fileName;
+
+      document.body.appendChild(
+        link
+      );
+
+      link.click();
+
+      link.remove();
+
+      URL.revokeObjectURL(
+        url
       );
 
     }
+  );
 
-  });
+
+  /* =========================================
+     NAHRATIE SÚBORU
+     ========================================= */
+
+  uploadButton.addEventListener(
+    "click",
+    () => {
+
+      fileInput.click();
+
+    }
+  );
+
+
+  fileInput.addEventListener(
+    "change",
+    async () => {
+
+      const file =
+        fileInput.files[0];
+
+      if (!file) {
+        return;
+      }
+
+
+      try {
+
+        const filePath =
+          safeSubject +
+          "/" +
+          Date.now() +
+          "_" +
+          file.name;
+
+
+        const { error } =
+          await supabaseClient
+            .storage
+            .from("rozvrhor")
+            .upload(
+              filePath,
+              file
+            );
+
+
+        if (error) {
+          throw error;
+        }
+
+
+        const fileRow =
+          document.createElement("div");
+
+        fileRow.className =
+          "file-row";
+
+        fileRow.dataset.filePath =
+          filePath;
+
+        fileRow.innerHTML = `
+          <div class="file-name">
+            ${file.name}
+          </div>
+
+          <div class="file-actions">
+
+            <button
+              type="button"
+              class="file-action download-button"
+              title="Stiahnuť">
+              💾
+            </button>
+
+            <button
+              type="button"
+              class="file-action delete-button"
+              title="Zmazať">
+              🗑
+            </button>
+
+          </div>
+        `;
+
+
+        fileList.appendChild(
+          fileRow
+        );
+
+        fileInput.value = "";
+
+
+        addDeleteButton(
+          fileRow
+        );
+
+
+        alert(
+          "Súbor bol úspešne nahraný."
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          error
+        );
+
+        alert(
+          "Súbor sa nepodarilo nahrať."
+        );
+
+      }
+
+    }
+  );
+
 
   /* =========================================
      MAZANIE SÚBORU
      ========================================= */
 
- async function addDeleteButton(row) {
+  async function addDeleteButton(row) {
 
-  const deleteButton =
-    row.querySelector(".delete-button");
-
-  deleteButton.addEventListener("click", async () => {
-
-    const confirmed =
-      confirm(
-        "Naozaj chceš tento súbor zmazať?"
+    const deleteButton =
+      row.querySelector(
+        ".delete-button"
       );
 
-    if (!confirmed) {
-      return;
-    }
+    deleteButton.addEventListener(
+      "click",
+      async () => {
+
+        const confirmed =
+          confirm(
+            "Naozaj chceš tento súbor zmazať?"
+          );
+
+        if (!confirmed) {
+          return;
+        }
 
 
-    const fileName =
-      row.querySelector(".file-name").textContent.trim();
-
-    const safeSubject =
-      predmet || "nezaradene";
-
-    const filePath =
-      safeSubject + "/" + fileName;
+        const fileName =
+          row
+            .querySelector(".file-name")
+            .textContent
+            .trim();
 
 
-    const { error } =
-      await supabaseClient
-        .storage
-        .from("rozvrhor")
-        .remove([filePath]);
+        const filePath =
+          safeSubject +
+          "/" +
+          fileName;
 
 
-    if (error) {
-
-      console.error(
-        "Nepodarilo sa zmazať súbor:",
-        error
-      );
-
-      alert("Súbor sa nepodarilo zmazať.");
-
-      return;
-    }
+        const { error } =
+          await supabaseClient
+            .storage
+            .from("rozvrhor")
+            .remove([
+              filePath
+            ]);
 
 
-    row.remove();
+        if (error) {
 
-  });
+          console.error(
+            "Nepodarilo sa zmazať súbor:",
+            error
+          );
 
-}
+          alert(
+            "Súbor sa nepodarilo zmazať."
+          );
+
+          return;
+        }
+
+
+        row.remove();
+
+      }
+    );
+
+  }
 
 
   /* =========================================
@@ -358,7 +448,9 @@ document.addEventListener("DOMContentLoaded", () => {
     .querySelectorAll(".file-row")
     .forEach(row => {
 
-      addDeleteButton(row);
+      addDeleteButton(
+        row
+      );
 
     });
 
