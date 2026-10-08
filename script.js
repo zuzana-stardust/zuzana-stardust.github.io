@@ -757,20 +757,36 @@ if (semesterButton) {
 }
 
 
-  if (materialButton) {
+ if (materialButton) {
 
     materialButton.addEventListener(
-      "click",
-      function () {
+        "click",
+        function () {
 
-        alert(
-          "Tu budú tvoje materiály na učenie."
-        );
+            const detail =
+                document.getElementById("lesson-detail");
 
-      }
+            const subject =
+                document.getElementById("detail-subject");
+
+            if (!detail || !subject) {
+                return;
+            }
+
+            const predmet =
+                subject.textContent.trim();
+
+            const url =
+                "matrosindex.html" +
+                "?predmet=" +
+                encodeURIComponent(predmet);
+
+            window.location.href = url;
+
+        }
     );
 
-  }
+}
 
 
   if (calendarButton) {
