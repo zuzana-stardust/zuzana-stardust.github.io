@@ -92,12 +92,15 @@ if (uploadButton) {
                     }
 
                     // Matroš má vlastný priestor
-                    const filePath =
-                        "matros/" +
-                        predmet +
-                        "/" +
-                        file.name;
+                    // Matroš má vlastný priestor
+const safePredmet =
+    predmet.replace(/[\/\\#?%*:|"<>]/g, "-");
 
+const filePath =
+    "matros/" +
+    safePredmet +
+    "/" +
+    file.name;
                     const { error } =
                         await supabaseClient
                             .storage
