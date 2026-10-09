@@ -1089,24 +1089,28 @@ function setupDetailButtons() {
   }
 
 
-  // ==========================================
-  // KALENDÁR
-  // ==========================================
+ 
+ // ==========================================
+ // KALENDÁR
+ // ==========================================
 
-  if (calendarButton) {
+if (calendarButton) {
+  calendarButton.addEventListener("click", function () {
+    const subjectElement = document.getElementById("detail-subject");
+    const subject = subjectElement
+      ? subjectElement.textContent.trim()
+      : "";
 
-    calendarButton.addEventListener(
-      "click",
-      function () {
+    if (!subject) {
+      alert("Nepodarilo sa zistiť názov predmetu.");
+      return;
+    }
 
-        alert(
-          "Tu bude kalendár termínov."
-        );
+    window.location.href =
+      "terminyindex.html?predmet=" + encodeURIComponent(subject);
+  });
+}
 
-      }
-    );
-
-  }
 
 
   // ==========================================
