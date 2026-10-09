@@ -899,3 +899,32 @@ body {
   width: 21px;
   height: 21px;
 }
+
+
+/* Zarovnanie dátumu a ikonky kalendára */
+.local-time {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  line-height: 1;
+}
+
+#local-datetime {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.2;
+}
+
+.header-calendar-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  margin: 0;
+  transform: none;
+}
+
+.header-calendar-button:hover {
+  transform: translateY(-1px);
+}
