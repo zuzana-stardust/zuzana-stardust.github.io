@@ -1,1 +1,122 @@
 
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#eeece8">
+
+  <title>Termíny · rozvrhoR</title>
+
+  <link rel="stylesheet" href="terminystyle.css">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="terminyscript.js" defer></script>
+</head>
+
+<body>
+  <main class="calendar-app">
+
+    <header class="calendar-header">
+      <a class="back-button" href="index.html">
+        ← Späť na rozvrh
+      </a>
+
+      <p class="eyebrow">rozvrhoR · plánovač</p>
+      <h1 id="calendar-heading">Termíny</h1>
+      <p id="calendar-description" class="calendar-description">
+        Všetky dôležité termíny na jednom mieste.
+      </p>
+    </header>
+
+    <section class="calendar-panel">
+
+      <div class="month-navigation">
+        <button id="prev-month" class="nav-button" type="button"
+          aria-label="Predchádzajúci mesiac">←</button>
+
+        <h2 id="month-title">Načítavam kalendár…</h2>
+
+        <button id="next-month" class="nav-button" type="button"
+          aria-label="Nasledujúci mesiac">→</button>
+      </div>
+
+      <div class="calendar-weekdays" aria-hidden="true">
+        <span>Po</span>
+        <span>Ut</span>
+        <span>St</span>
+        <span>Št</span>
+        <span>Pi</span>
+        <span>So</span>
+        <span>Ne</span>
+      </div>
+
+      <div id="calendar-grid" class="calendar-grid">
+        <p class="loading-message">Pripravujem kalendár…</p>
+      </div>
+
+      <div class="calendar-legend">
+        <span><i class="legend-dot shared"></i> Spoločný termín</span>
+        <span><i class="legend-dot zuzana"></i> Zuzana</span>
+        <span><i class="legend-dot nelka"></i> Nelka</span>
+      </div>
+
+    </section>
+
+    <section class="events-panel" aria-live="polite">
+      <div class="events-heading">
+        <div>
+          <p class="eyebrow">Prehľad dňa</p>
+          <h2 id="selected-date-title">Vyber deň</h2>
+        </div>
+      </div>
+
+      <div id="events-list">
+        <p class="empty-message">
+          Klikni na deň v kalendári a zobrazia sa jeho termíny.
+        </p>
+      </div>
+    </section>
+
+    <section id="event-form-panel" class="event-form-panel" hidden>
+      <h2 id="event-form-heading">Nový termín</h2>
+
+      <form id="event-form">
+        <label for="event-date">Dátum</label>
+        <input id="event-date" name="event-date" type="date" required>
+
+        <label for="event-title">Názov termínu</label>
+        <input id="event-title" name="event-title" type="text"
+          placeholder="Napr. midterm" maxlength="150" required>
+
+        <label for="event-who">Koho sa týka?</label>
+        <select id="event-who" name="event-who" required>
+          <option value="shared">Spoločný termín</option>
+          <option value="zuzana">Zuzana only</option>
+          <option value="nelka">Nelka only</option>
+        </select>
+
+        <p id="event-subject-note" class="form-note"></p>
+
+        <div class="form-actions">
+          <button id="save-event" class="primary-button" type="submit">
+            Uložiť termín
+          </button>
+          <button id="cancel-edit" class="secondary-button" type="button">
+            Zrušiť
+          </button>
+        </div>
+
+        <p id="form-message" class="form-message" role="status"></p>
+      </form>
+    </section>
+
+    <footer class="calendar-footer">
+      rozvrhoR · termíny
+    </footer>
+
+  </main>
+</body>
+</html>
+
