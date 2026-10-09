@@ -852,3 +852,50 @@ body {
     font-size: 12px;
     opacity: 0.5;
 }
+
+/* ==========================================
+   KALENDÁR – IKONKA V HLAVIČKE
+   ========================================== */
+
+.local-time {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.header-calendar-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid #ded9d1;
+  border-radius: 12px;
+  background: #f8f6f2;
+  color: #292725;
+  text-decoration: none;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.header-calendar-button:hover {
+  background: #e8e3dc;
+  border-color: #c9c0b5;
+  transform: translateY(-1px);
+}
+
+.header-calendar-button:focus-visible {
+  outline: 2px solid #8da9c4;
+  outline-offset: 3px;
+}
+
+.header-calendar-button svg {
+  display: block;
+  width: 21px;
+  height: 21px;
+}
