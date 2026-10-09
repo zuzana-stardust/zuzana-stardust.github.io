@@ -1,10 +1,15 @@
 
+/* =========================================
+   rozvrhoR — Termíny
+   ========================================= */
+
 :root {
   --background: #eeece8;
-  --surface: #f8f6f2;
+  --surface: #ffffff;
   --text: #292725;
-  --muted: #77716b;
-  --border: #ded9d1;
+  --muted: #77736e;
+  --border: #ddd9d3;
+  --border-light: #e5e1dc;
 
   --shared: #8da9c4;
   --zuzana: #b2a0cc;
@@ -15,15 +20,20 @@
   --nelka-bg: #e5eee5;
 
   --danger: #a85f5f;
-  --radius: 18px;
+  --radius: 20px;
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
+  padding: 0;
   min-height: 100vh;
   background: var(--background);
   color: var(--text);
@@ -48,38 +58,60 @@ button {
   color: inherit;
 }
 
+/* =========================================
+   HLAVNÁ STRÁNKA
+   ========================================= */
+
 .calendar-app {
-  width: min(100% - 32px, 920px);
+  width: min(1100px, calc(100% - 40px));
   margin: 0 auto;
-  padding: 28px 0 20px;
+  padding: 28px 0 60px;
 }
 
+/* =========================================
+   HLAVIČKA
+   ========================================= */
+
 .calendar-header {
-  margin-bottom: 24px;
+  margin-bottom: 35px;
 }
 
 .back-button {
   display: inline-flex;
   align-items: center;
+  gap: 9px;
   margin-bottom: 26px;
-  padding: 9px 14px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  color: var(--text);
+  padding: 11px 17px;
+
+  background: #ffffff;
+  color: #292725;
+
+  border: 1px solid #d8d4ce;
+  border-radius: 12px;
+
   text-decoration: none;
-  background: var(--surface);
-  transition: background 0.2s, transform 0.2s;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .back-button:hover {
-  background: #e8e3dc;
+  background: #f7f5f2;
   transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.07);
 }
 
 .eyebrow {
-  margin: 0 0 5px;
+  margin: 0 0 8px;
   color: var(--muted);
-  font-size: 0.76rem;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -87,58 +119,94 @@ button {
 
 .calendar-header h1 {
   margin: 0;
-  font-size: clamp(2rem, 6vw, 3rem);
-  letter-spacing: -0.045em;
-  line-height: 1.15;
+  font-size: clamp(32px, 5vw, 52px);
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -1px;
+  overflow-wrap: anywhere;
 }
 
 .calendar-description {
-  margin: 10px 0 0;
+  margin: 12px 0 0;
   color: var(--muted);
+  font-size: 15px;
+  line-height: 1.5;
 }
+
+/* =========================================
+   HLAVNÉ PANELY
+   ========================================= */
 
 .calendar-panel,
 .events-panel,
 .event-form-panel {
-  margin-bottom: 20px;
-  padding: clamp(16px, 4vw, 26px);
+  margin-bottom: 24px;
+  padding: 28px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--surface);
-  box-shadow: 0 5px 20px rgba(50, 42, 32, 0.035);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.045);
 }
+
+/* =========================================
+   NAVIGÁCIA MESIACA
+   ========================================= */
 
 .month-navigation {
   display: grid;
-  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  grid-template-columns: 42px minmax(0, 1fr) 42px;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 22px;
+  gap: 14px;
+  margin-bottom: 24px;
 }
 
 .month-navigation h2 {
   margin: 0;
   text-align: center;
-  font-size: clamp(1.15rem, 4vw, 1.5rem);
+  font-size: clamp(18px, 4vw, 24px);
+  font-weight: 700;
   text-transform: capitalize;
 }
 
 .nav-button {
-  display: grid;
-  width: 44px;
-  height: 44px;
-  place-items: center;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  background: var(--background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+  padding: 0;
+
+  border: 1px solid #ddd9d3;
+  border-radius: 10px;
+
+  background: #ffffff;
+  color: #292725;
+
+  font-size: 20px;
   cursor: pointer;
-  font-size: 1.3rem;
-  transition: background 0.2s;
+
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.035);
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .nav-button:hover {
-  background: #e4dfd7;
+  background: #f7f5f2;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.06);
 }
+
+.nav-button:active {
+  transform: translateY(0);
+}
+
+/* =========================================
+   DNI V TÝŽDNI
+   ========================================= */
 
 .calendar-weekdays,
 .calendar-grid {
@@ -152,32 +220,48 @@ button {
 }
 
 .calendar-weekdays span {
-  padding: 6px 0;
+  padding: 7px 0;
   color: var(--muted);
   text-align: center;
-  font-size: 0.78rem;
+  font-size: 12px;
   font-weight: 700;
 }
+
+/* =========================================
+   JEDNOTLIVÉ DNI
+   ========================================= */
 
 .calendar-day {
   position: relative;
   display: flex;
   min-width: 0;
-  min-height: clamp(55px, 10vw, 90px);
+  min-height: clamp(58px, 9vw, 90px);
   flex-direction: column;
   align-items: center;
   gap: 6px;
   padding: 9px 3px 7px;
+
   border: 1px solid transparent;
   border-radius: 12px;
+
   background: transparent;
+  color: var(--text);
+
   cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .calendar-day:hover {
   border-color: var(--border);
-  background: var(--background);
+  background: #f7f5f2;
+}
+
+.calendar-day:active {
+  transform: scale(0.98);
 }
 
 .calendar-day.outside-month {
@@ -186,11 +270,12 @@ button {
 
 .calendar-day.today .day-number {
   border: 1px solid var(--text);
+  font-weight: 700;
 }
 
 .calendar-day.selected {
-  border-color: #aaa198;
-  background: #ebe6df;
+  border-color: #cfcac3;
+  background: #f0ede8;
 }
 
 .day-number {
@@ -198,8 +283,9 @@ button {
   width: 32px;
   height: 32px;
   place-items: center;
-  border-radius: 50%;
-  font-size: 0.92rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font-size: 14px;
 }
 
 .day-indicators {
@@ -234,15 +320,19 @@ button {
   background: var(--nelka);
 }
 
+/* =========================================
+   LEGENDA FARIEB
+   ========================================= */
+
 .calendar-legend {
   display: flex;
   flex-wrap: wrap;
   gap: 12px 20px;
   margin-top: 22px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border);
+  padding-top: 18px;
+  border-top: 1px solid var(--border-light);
   color: var(--muted);
-  font-size: 0.82rem;
+  font-size: 13px;
 }
 
 .calendar-legend span {
@@ -257,29 +347,49 @@ button {
   flex-basis: 9px;
 }
 
+/* =========================================
+   PREHĽAD TERMÍNOV
+   ========================================= */
+
 .events-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 22px;
 }
 
 .events-heading h2,
 .event-form-panel h2 {
   margin: 0;
-  font-size: 1.3rem;
+  font-size: 22px;
+  font-weight: 700;
 }
+
+/* =========================================
+   JEDEN TERMÍN
+   ========================================= */
 
 .event-card {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 14px;
   margin-top: 10px;
-  padding: 14px;
-  border: 1px solid var(--border);
-  border-radius: 13px;
-  background: #f3f0eb;
+  padding: 16px;
+
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.event-card:hover {
+  background: #faf9f7;
+  border-color: #d8d4ce;
 }
 
 .event-card-color {
@@ -309,81 +419,158 @@ button {
 
 .event-card-title {
   margin: 0;
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.5;
   overflow-wrap: anywhere;
 }
 
 .event-card-subtitle {
-  margin: 4px 0 0;
+  margin: 5px 0 0;
   color: var(--muted);
-  font-size: 0.85rem;
+  font-size: 13px;
 }
+
+/* =========================================
+   UPRAVIŤ / ODSTRÁNIŤ
+   ========================================= */
 
 .event-card-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 10px;
+  gap: 7px;
+  margin-top: 12px;
 }
 
 .event-card-actions button {
-  padding: 5px 10px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: var(--surface);
+  min-height: 34px;
+  padding: 7px 12px;
+
+  border: 1px solid #ddd9d3;
+  border-radius: 10px;
+
+  background: #ffffff;
+  color: #292725;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+
   cursor: pointer;
-  font-size: 0.8rem;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.event-card-actions button:hover {
+  background: #f3f1ed;
+  border-color: #cfcac3;
+  transform: translateY(-1px);
+}
+
+.event-card-actions button:active {
+  transform: translateY(0);
 }
 
 .event-card-actions .delete-event {
   color: var(--danger);
 }
 
+.event-card-actions .delete-event:hover {
+  background: #fbf1f0;
+  border-color: #dfc5c2;
+}
+
+/* =========================================
+   PRÁZDNY / NAČÍTAVACÍ STAV
+   ========================================= */
+
 .empty-message,
 .loading-message {
   margin: 0;
-  padding: 18px 0;
-  color: var(--muted);
+  padding: 30px 5px;
+  color: #8a8680;
   text-align: center;
-  font-size: 0.92rem;
+  font-size: 14px;
 }
+
+/* =========================================
+   HLAVNÉ TLAČIDLÁ
+   ========================================= */
 
 .primary-button,
 .secondary-button,
 .add-event-button {
-  min-height: 42px;
-  padding: 10px 16px;
-  border: 1px solid var(--text);
-  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  min-height: 44px;
+  padding: 11px 17px;
+
+  border: 1px solid transparent;
+  border-radius: 11px;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+
   cursor: pointer;
-  transition: opacity 0.2s, transform 0.2s;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .primary-button,
 .add-event-button {
-  background: var(--text);
-  color: var(--surface);
-}
-
-.secondary-button {
-  border-color: var(--border);
-  background: var(--background);
+  background: #292725;
+  color: #ffffff;
 }
 
 .primary-button:hover,
-.secondary-button:hover,
 .add-event-button:hover {
+  background: #45413d;
   transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.12);
+}
+
+.primary-button:active,
+.add-event-button:active {
+  transform: translateY(0);
+}
+
+.secondary-button {
+  border-color: #ddd9d3;
+  background: #ffffff;
+  color: #292725;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.035);
+}
+
+.secondary-button:hover {
+  background: #f7f5f2;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.06);
 }
 
 button:disabled {
   cursor: wait;
   opacity: 0.55;
+  transform: none;
+  box-shadow: none;
 }
 
+/* =========================================
+   FORMULÁR TERMÍNU
+   ========================================= */
+
 .event-form-panel h2 {
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 #event-form {
@@ -392,34 +579,47 @@ button:disabled {
 }
 
 #event-form label {
-  margin-top: 7px;
-  font-size: 0.9rem;
-  font-weight: 700;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 #event-form input,
 #event-form select {
   width: 100%;
   min-height: 46px;
-  padding: 10px 12px;
-  border: 1px solid var(--border);
+  padding: 11px 12px;
+
+  border: 1px solid #d8d4ce;
   border-radius: 11px;
+
   outline: none;
-  background: #fffdf9;
+  background: #ffffff;
   color: var(--text);
+
+  font-family: inherit;
+  font-size: 14px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 #event-form input:focus,
 #event-form select:focus {
-  border-color: #9a9187;
+  border-color: #aaa198;
   box-shadow: 0 0 0 3px rgba(154, 145, 135, 0.13);
+}
+
+#event-form input::placeholder {
+  color: #9a958e;
 }
 
 .form-note,
 .form-message {
-  margin: 4px 0;
+  margin: 5px 0;
   color: var(--muted);
-  font-size: 0.85rem;
+  font-size: 13px;
 }
 
 .form-message:empty {
@@ -430,49 +630,93 @@ button:disabled {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 14px;
 }
+
+/* =========================================
+   PÄTIČKA
+   ========================================= */
 
 .calendar-footer {
   padding: 8px 0 18px;
   color: var(--muted);
   text-align: center;
-  font-size: 0.8rem;
+  font-size: 12px;
+}
+
+/* =========================================
+   PRÍSTUPNOSŤ
+   ========================================= */
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--shared);
+  outline-offset: 3px;
 }
 
 [hidden] {
   display: none !important;
 }
 
-@media (max-width: 480px) {
+/* =========================================
+   MOBIL
+   ========================================= */
+
+@media (max-width: 700px) {
   .calendar-app {
-    width: min(100% - 20px, 920px);
-    padding-top: 16px;
+    width: min(100% - 24px, 1100px);
+    padding-top: 18px;
+    padding-bottom: 35px;
+  }
+
+  .calendar-header {
+    margin-bottom: 28px;
+  }
+
+  .calendar-header h1 {
+    font-size: clamp(30px, 8vw, 40px);
+  }
+
+  .calendar-description {
+    font-size: 14px;
   }
 
   .calendar-panel,
   .events-panel,
   .event-form-panel {
-    padding: 13px;
-    border-radius: 15px;
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .month-navigation {
+    gap: 9px;
+    margin-bottom: 18px;
+  }
+
+  .nav-button {
+    width: 38px;
+    height: 38px;
   }
 
   .calendar-weekdays,
   .calendar-grid {
-    gap: 2px;
+    gap: 3px;
   }
 
   .calendar-day {
-    min-height: 52px;
+    min-height: 58px;
     padding: 6px 1px;
-    border-radius: 8px;
+    border-radius: 9px;
     gap: 3px;
   }
 
   .day-number {
     width: 29px;
     height: 29px;
-    font-size: 0.85rem;
+    border-radius: 9px;
+    font-size: 13px;
   }
 
   .event-dot {
@@ -482,12 +726,89 @@ button:disabled {
   }
 
   .calendar-legend {
-    gap: 10px;
-    font-size: 0.75rem;
+    gap: 10px 14px;
+    font-size: 12px;
   }
 
   .event-card {
-    padding: 11px;
+    gap: 11px;
+    padding: 13px;
+  }
+
+  .content-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions button {
+    width: 100%;
   }
 }
 
+/* =========================================
+   VEĽMI MALÉ MOBILY
+   ========================================= */
+
+@media (max-width: 430px) {
+  .calendar-app {
+    width: min(100% - 20px, 1100px);
+    padding-top: 16px;
+  }
+
+  .calendar-panel,
+  .events-panel,
+  .event-form-panel {
+    padding: 16px;
+  }
+
+  .back-button {
+    margin-bottom: 22px;
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .calendar-header h1 {
+    font-size: 28px;
+  }
+
+  .calendar-weekdays,
+  .calendar-grid {
+    gap: 2px;
+  }
+
+  .calendar-day {
+    min-height: 51px;
+    padding: 5px 0;
+  }
+
+  .day-number {
+    width: 27px;
+    height: 27px;
+    font-size: 12px;
+  }
+
+  .calendar-legend {
+    gap: 9px 12px;
+    font-size: 11px;
+  }
+
+  .event-card-actions {
+    gap: 6px;
+  }
+
+  .event-card-actions button {
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+
+  .primary-button,
+  .secondary-button,
+  .add-event-button {
+    width: 100%;
+  }
+}
